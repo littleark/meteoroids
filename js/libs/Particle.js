@@ -92,7 +92,8 @@ function Particle(x,y,radius) {
 		// and draw it! 
 		//c.drawImage(img,0,0);
 		c.strokeStyle = "#ffffff";
-		c.fillStyle='rgba(255,255,255,0.5)';
+		//c.fillStyle='rgba(160,255,255,0.5)';
+		c.fillStyle='rgba(255,140,30,0.5)';
 		c.lineWidth = 0; 
 		c.beginPath(); 
 		c.arc(0,0,this.radius, 0, Math.PI*2, true);
