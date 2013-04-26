@@ -1,16 +1,16 @@
 var config={
-	user:"",
-	pwd:"",
-	db:"meteor",
+	//user:"",
+	//pwd:"",
+	db:"meteoroids",
 	collection:"meteorites",
-	//user:'littleark',
-	//pwd: 'cheguevara',
-	//host:"ds043477.mongolab.com",
-	//port:43477,
+	user:'meteoroid',
+	pwd: 'Michelplatini10',
+	host:"ds061767.mongolab.com",
+	port:61767,
 	//host:"dharma.mongohq.com",
 	//port:10053,
-	host:"127.0.0.1",
-	port:27017
+	//host:"127.0.0.1",
+	//port:27017
 }
 
 

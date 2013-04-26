@@ -40,11 +40,23 @@
 	var metorites;
 
 	var duration=60*1000;
-
+	var	apikey="VeKnm4WYzbUPhWSpcVs6lFrde-bNeBTI",
+	   	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0},'type_of_meteorite':{$nin:[/Doubt/]}}",
+	   	fields="{'mass_g':1,'year':1,'place':1}",
+	   	sorting="{'year':1}";
+	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0}}";
+	//var mongolab_uri="https://api.mongolab.com/api/1/databases/meteoroids/collections/meteorites/?q="+encodeURI(query)+"&f="+encodeURI(fields)+"&s="+encodeURI(sorting)+"&l=35000&apiKey="+apikey;
 	//d3.json("http://localhost:8081/data?t="+(new Date().getTime()),function(json){
 	d3.json("data/meteors.json?"+(new Date().getTime()),function(json){
+	//d3.json(mongolab_uri,function(json){
+		/*
 		console.log(json);
-
+		json.forEach(function(d){
+			d.y=d.year;
+			d.m=d.mass_g;
+			d.p=d.place;
+		})
+		*/
 		metorites=new Metorites(json);
 
 	});
@@ -181,12 +193,12 @@
 					} 
 				})
 				.entries(data);
-		console.log(nested_data)
+		//console.log(nested_data)
 
 		var nested_data2 = d3.nest()
 				.key(function(d) { return d.y; })
 				.entries(data);
-		console.log(nested_data2)
+		//console.log(nested_data2)
 
 		//return 0;
 
@@ -213,20 +225,31 @@
 		}
 
 		var bisectDate = d3.bisector(function(d) { return d.key; }).right;
+
 		svg.on("mousemove",function(){
 			var	x=d3.mouse(this)[0]+50,
 			   	year=x_scale.invert(x);
 			year=year|year;
-			//console.log(x,year)
 
 			var	i=bisectDate(nested_data2,year,1),
 			   	el=nested_data2[i-1];
 
-			//console.log(year,i,nested_data2[i-1]);
-			d3.selectAll("g#circles g").classed("visible",false);
+			d3.selectAll("g#circles g.visible").classed("visible",false);
 			d3.select("g#circles g[data='"+el.key+"']").classed("visible",true);
-			//showMeteorites(year,x_scale(year),nested_data2[i-1])
-		})
+		});
+		
+		svg.on("touchmove", function(){
+			d3.event.preventDefault();
+			var	x=d3.touches(this)[0][0],
+			   	year=x_scale.invert(x);
+			year=year|year;
+
+			var	i=bisectDate(nested_data2,year,1),
+			   	el=nested_data2[i-1];
+
+			d3.selectAll("g#circles g.visible").classed("visible",false);
+			d3.select("g#circles g[data='"+el.key+"']").classed("visible",true);
+		});
 
 		views=views_g.selectAll("g.views")
 				.data(nested_data)
@@ -299,7 +322,7 @@
 					.attr("y1",-100)
 					.attr("x2",0)
 					.attr("y2",function(d){
-						console.log(d.key,d.values[0])
+						//console.log(d.key,d.values[0])
 						return -(h_scale2(d.values[0].m)+5)
 					});
 		m_groups.append("text")
@@ -519,8 +542,8 @@
 						year=particle.year;
 						particle.draw(ctx);
 						fell=i+1;
-						if(particle.year<0)
-								console.log(particle)
+						//if(particle.year<0)
+						//		console.log(particle)
 					} else {
 						//if(i==3 && !particle.explode)
 						//	console.log(particle.pos);
