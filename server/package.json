@@ -5,6 +5,8 @@
   "private": true,
   "dependencies": {
     "mongodb": "*",
-    "express": "*"
+    "express": "*",
+    "request": "*",
+    "googlemaps": "*"
   }
 }

@@ -48,7 +48,7 @@ db.open(function(err,client){
 					'year':{$ne:'',$gt:0},
 					'fell_found':'Fell',
 					'mass_g':{$gt:0},
-					'type_of_meteorite':{$nin:[/Doubt/]}
+					'type_of_meteorite':{$nin:[/Doubt/,/Discredited/]}
 				};//,$gte:1900
 
 				col.find(pars, {sort:[['year','asc']]}, function(err, cursor){
@@ -62,7 +62,8 @@ db.open(function(err,client){
 								var m={
 									m:doc.mass_g,
 									y:doc.year,
-									p:doc.place//,
+									p:doc.place,
+									c:doc.country?doc.country.country:""
 									//year_date:doc.year_date,
 									//fell_found:doc.fell_found
 								};

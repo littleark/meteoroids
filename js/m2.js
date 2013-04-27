@@ -63,6 +63,15 @@
 
 	function Metorites(data){
 
+		var status=0;
+		var big_format=d3.format(",.0f");
+
+		var weight_format=function(n){
+			var n=d3.format(".2s")(n);
+			n=(n.search(/[kM]+/g)>-1)?(n.replace("k"," kg").replace("M"," ton")):n+" gr";
+			return n;
+		};
+
 		var year_dom=d3.select("#year h3 span");
 		var views_dom=d3.select("#year h3 b");
 		var t_year_dom=d3.select("#year h4 span");
@@ -73,7 +82,7 @@
 
 		ctx.font = "bold 16px Arial";
 
-		var ground_height=400;
+		var ground_height=300;
 
 		canvas.width=WIDTH;
 		canvas.height=HEIGHT+ground_height;
@@ -167,10 +176,11 @@
 			return d.m;
 		})
 		var r_scale=d3.scale.sqrt().range([1.5,20]).domain(mass_extents);
+		var r_scale2=d3.scale.sqrt().range([10,100]).domain(mass_extents);
 
 		var h_scale=d3.scale.sqrt().range([5,100]).domain(mass_extents);
 		var h_scale2=d3.scale.sqrt().range([2,20]).domain(mass_extents);
-		var h_scale3=d3.scale.pow().exponent(1/3).range([0.5,18]).domain(mass_extents);
+		var h_scale3=d3.scale.pow().exponent(1/3).range([0.5,30]).domain(mass_extents);
 
 		var time_scale=d3.scale.pow().exponent(-1).range([0,1]).domain([year_extents[0],year_extents[1]+100]);
 		
@@ -224,6 +234,64 @@
 
 		}
 
+		var details={
+			container:d3.select("#details"),
+			list:d3.select("#details ul"),
+			year:d3.select("#details h2 span#dYear"),
+			count:d3.select("#details h2 span#dCount")
+		};
+		function createDetails(d_data){
+			console.log(d_data);
+			//details_container.selectAll()
+			details.year.text(d_data.key);
+			details.count.text(d_data.values.length);
+			var items=details.list.selectAll("li")
+					.remove()
+					.data(d_data.values)
+					.enter()
+					.append("li");
+
+			items.append("div")
+					.attr("class","meteorite")
+					.append("b")
+						.style("width",function(d){
+							console.log(d)
+							return r_scale2(d.m)+"px"
+						})
+						.style("height",function(d){
+							return r_scale2(d.m)+"px"
+						});
+
+			
+			items.append("h4")
+					.text(function(d){
+						return d.c;
+					});
+			items.append("h3")
+					.html(function(d){
+						return d.p+"<span>"+weight_format(d.m)+"</span>";
+					});
+		}
+		createDetails(nested_data2[173]);
+
+		d3.select("#restart")
+			.on("click",function(){
+				d3.event.preventDefault();
+				metorites.restart();
+			});
+
+		var controls=d3.select("#controls");
+		controls.on("click",function(){
+				d3.event.preventDefault();
+				if(status==0) {
+					metorites.start();
+					controls.classed("paused",false);
+				} else {
+					metorites.pause();
+					controls.classed("paused",true);
+				}
+			});
+
 		var bisectDate = d3.bisector(function(d) { return d.key; }).right;
 
 		svg.on("mousemove",function(){
@@ -237,7 +305,7 @@
 			d3.selectAll("g#circles g.visible").classed("visible",false);
 			d3.select("g#circles g[data='"+el.key+"']").classed("visible",true);
 		});
-		
+
 		svg.on("touchmove", function(){
 			d3.event.preventDefault();
 			var	x=d3.touches(this)[0][0],
@@ -373,7 +441,7 @@
 					return h_scale3(d.m);
 				});
 
-		var big_format=d3.format(",.0f");
+		
 		meteorite_g.append("text")
 				.attr("x",function(d){
 					return 0
@@ -398,13 +466,15 @@
 				})
 				.text(function(d){
 					if(d.y==year_extents[0]) {
-						return big_format(d.m)+" g" +" - "+ d.p;
+						return weight_format(d.m)+" - "+ d.p+", "+d.c;
 					}
-					return d.p+" - "+big_format(d.m)+" g";
+					return d.p+", "+d.c+" - "+weight_format(d.m);
 				});
 
 
 		function init() {
+			particles=[];
+
 			for(var i=0;i<data.length;i++) {
 				var d=data[i];
 				
@@ -417,7 +487,9 @@
 				var	n=dist.magnitude()/vel.magnitude(),
 				   	vel2=vel.clone();
 
-				vel2.y+=(n*gravity);
+				//vel2.x+=(n*gravity);
+				//vel2.y+=(n*gravity);
+
 				//218.165652444099 ==> 0
 				//184.76971706298647 ==> 0.01
 				//115.3391667841787 ==> 0.1
@@ -433,8 +505,8 @@
 				//	console.log(d.year,x_scale(d.year))
 
 				var particle=new Particle(x_scale(d.y)+dist.x + 36,HEIGHT+dist.y,r_scale(d.m));
-
-				particle.t=time_scale_delta(d.y);
+				//console.log((+d.y)+Math.random())
+				particle.t=time_scale_delta((+d.y)+Math.random());
 				particle.year=d.y;
 				particle.gravity=gravity;
 
@@ -462,13 +534,42 @@
 
 			}
 			time=new Date().getTime();
-			loop();
+			status=1;
 		}
 		init();
+		loop();
 
 		var fell=1,
-			current_year=0;
+			current_year=0,
+			raf_id=-1;
 
+		this.restart=function(){
+			cancelAnimationFrame(raf_id);
+			controls.classed("paused",false);
+			fell=1;
+			year=year_extents[0];
+			current_year=0;
+			t=0;
+			clean();
+			init();
+			loop();
+		}
+		this.pause=function(){
+			status=0;
+			cancelAnimationFrame(raf_id);
+		}
+		this.start=function(){
+			if(status==0) {
+				time=new Date().getTime();
+				status=1;
+				loop();	
+			}
+		}
+
+		function clean(){
+			ctx.fillStyle="rgba(0,0,0,1)";
+			ctx.fillRect(0,0, canvas.width,canvas.height);
+		}
 		function loop() {
 
 			//ctx.fillStyle="rgb(0,0,0)";
@@ -526,7 +627,7 @@
 			time=current_time;
 
 			if(t<duration+5000) {
-				requestAnimationFrame(loop);
+				raf_id=requestAnimationFrame(loop);
 			}
 		}
 
@@ -534,10 +635,11 @@
 			
 			for (var i=0; i<particles.length; i++) {
 				var particle = particles[i]; 
-				
+
 				//if(particle.alpha>0.1) {
 
 					if(particle.pos.y<HEIGHT-1 && particle.t<t && !particle.explode) {
+
 						particle.update(canvas);
 						year=particle.year;
 						particle.draw(ctx);
