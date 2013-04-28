@@ -57,6 +57,9 @@
 			d.p=d.place;
 		})
 		*/
+		var is_touch_device = 'ontouchstart' in document.documentElement;
+		d3.select("body").classed("touch",is_touch_device);
+
 		metorites=new Metorites(json);
 
 	});
@@ -74,7 +77,7 @@
 
 		var year_dom=d3.select("#year h3 span");
 		var views_dom=d3.select("#year h3 b");
-		var t_year_dom=d3.select("#year h4 span");
+		//var t_year_dom=d3.select("#year h4 span");
 
 		var	canvas = document.createElement( 'canvas' ),
 		   	ctx = canvas.getContext( '2d' );
@@ -125,6 +128,8 @@
 		var isto=svg.append("g")
 					.attr("id","istograms");
 
+		var views_g=svg.append("g")
+				.attr("id","views");
 		var m_groups=svg.append("g")
 					.attr("id","circles");
 
@@ -133,8 +138,7 @@
 
 
 
-		var views_g=svg.append("g")
-				.attr("id","views");
+		
 
 		axis.selectAll("text")
 					.data(v_years)
@@ -406,6 +410,7 @@
 					.on("click",function(d){
 						d3.event.preventDefault();
 						
+						m_groups.select("g[data='"+d+"'] text.plus").attr("dy",0).text("+")
 						details.container.selectAll("div.meteorites[data='"+d+"']")
 								.transition()
 								.duration(1000)
@@ -435,6 +440,7 @@
 								.attr("class","meteorite clearfix");
 
 			lis.append("div")
+					.attr("class","shape")
 					.append("b")
 						.style("width",function(d){
 							return "1px";//r_scale2(d.m)+"px"
@@ -445,14 +451,21 @@
 
 			lis.append("h3")
 					.html(function(d){
-						return "<b>"+d.p+"</b><br/><span>"+d.c+"</span>";
+						return "<b>"+d.p+"</b><br/><span>"+d.c+"</span>"+"<br/><span>TYPE: "+d.t+"</span>";
 					});
 			lis.append("h4")
 					.text(function(d){
-						return weight_format(d.m);
+						return "MASS: "+weight_format(d.m);
 					});
 			
-			
+			lis.append("div")
+					.attr("class","links")
+						.html(function(d){
+							var	l1='<a href="http://here.com/map='+d.l+',8/title='+encodeURI(d.p+', '+d.c+' Type: '+d.t+" Mass: "+weight_format(d.m))+'" target="_blank"><i class="icon-location"></i></a>',
+							   	l2='<a href="http://www.lpi.usra.edu/meteor/metbull.php?code='+d.u+'" title="Open at the Meteoritical Society" target="_blank"><i class="icon-link"></i></a>';
+							
+							return l1+l2;
+						});
 			
 			
 
@@ -471,67 +484,7 @@
 		 				});
 		 	},50)
 		}			
-		function createDetails3(data){
 
-			//console.log(data)
-			//details.list.selectAll("li").remove();
-
-			var items=details.list
-					.selectAll("li")
-						.data(data)
-						/*
-						.data(function(){
-							var a=[];
-							selected_years.forEach(function(y){
-								a=a.concat(data.filter(function(d){
-									return +d.y == y;
-								}))
-							});
-							return a;
-						}())
-						*/
-						//.data(data.filter(function(d){
-						//	return selected_years.indexOf(+d.y)>-1;
-						//}));
-
-			//items.exit().remove();
-
-			var lis=items.enter()
-					.append("li");
-			
-			lis.append("div")
-					.attr("class","meteorite")
-					.append("b")
-						.style("width",function(d){
-							return 0;
-						})
-						.style("height",function(d){
-							return 0;
-						});
-
-			lis.append("h3")
-					.html(function(d){
-						return d.y+"<br/><b>"+d.p+"</b><br/><span>"+d.c+"</span>";
-					});
-			lis.append("h4")
-					.text(function(d){
-						return weight_format(d.m);
-					});
-
-
-			/*
-			items.selectAll("div.meteorite")
-					.select("b")
-						.transition()
-						.duration(1000)
-							.style("width",function(d){
-								return r_scale2(d.m)+"px"
-							})
-							.style("height",function(d){
-								return r_scale2(d.m)+"px"
-							});
-			*/
-		}
 		//createDetails(nested_data2[173]);
 		createDetails(nested_data2);
 
@@ -541,46 +494,56 @@
 				metorites.restart();
 			});
 
-		var controls=d3.select("#controls");
-		controls.on("click",function(){
+		var playPause=d3.select("#playPause");
+		playPause.on("click",function(){
 				d3.event.preventDefault();
 				if(status==0) {
 					metorites.start();
-					controls.classed("paused",false);
+					playPause.classed("paused",false);
 				} else {
 					metorites.pause();
-					controls.classed("paused",true);
+					playPause.classed("paused",true);
 				}
 			});
 
 		var bisectDate = d3.bisector(function(d) { return d.key; }).right;
 		var __year=0;
+		var mousedown=false;
 		svg.on("mousemove",function(){
-			var	x=d3.mouse(this)[0],//+50,
-			   	year=x_scale.invert(x);
-			year=year|year;
+			
+				var	x=d3.mouse(this)[0]+4,//+50,
+				   	year=x_scale.invert(x);
+				year=year|year;
 
-			var	i=bisectDate(nested_data2,year,1),
-			   	el=nested_data2[i-1];
+				var	i=bisectDate(nested_data2,year,1),
+				   	el=nested_data2[i-1];
+				__year= +el.key;
 
-			d3.selectAll("g#circles g.visible").classed("visible",false);
-			d3.select("g#circles g[data='"+el.key+"']").classed("visible",true);
+			if(mousedown) {
+				d3.selectAll("g.visible").classed("visible",false);
+				d3.selectAll("g[data='"+el.key+"']").classed("visible",true);
+				//d3.select(".view[data='"+el.key+"']").classed("visible",true);
 
-			__year= +el.key;
+			} else {
+				d3.selectAll(".view.visible").classed("visible",false);
+				d3.select(".view[data='"+el.key+"']").classed("visible",true);
+			}
+		})
+		.on("mousedown",function(){
+			d3.event.preventDefault();
+			svg.classed("move",true);
+			mousedown=true;
+		}).on("mouseup",function(){
+			setTimeout(function(){
+				svg.classed("move",false);	
+			},250)
+			mousedown=false;
 		})
 		.on("click",function(){
-			if(selected_years.indexOf(__year)>-1) {
-				selected_years=selected_years.filter(function(d){
-					return d!=__year;
-				})
-			} else {
-				selected_years.push(__year);	
-			}
-			console.log(selected_years)
-			//createDetails(data);
-			//updateDetails();
-			createDetails(nested_data2);
+			d3.selectAll("g.visible").classed("visible",false);
+			d3.selectAll("g[data='"+__year+"']").classed("visible",true);
 		})
+		
 
 		svg.on("touchmove", function(){
 			d3.event.preventDefault();
@@ -591,15 +554,24 @@
 			var	i=bisectDate(nested_data2,year,1),
 			   	el=nested_data2[i-1];
 
-			d3.selectAll("g#circles g.visible").classed("visible",false);
-			d3.select("g#circles g[data='"+el.key+"']").classed("visible",true);
+			//d3.selectAll("g#circles g.visible").classed("visible",false);
+			//d3.select("g#circles g[data='"+el.key+"']").classed("visible",true);
+			d3.selectAll("g.visible").classed("visible",false);
+			d3.selectAll("g[data='"+el.key+"']").classed("visible",true);
+		})
+		.on("touchend",function(){
+			d3.event.stopPropagation();
 		});
+
 
 		views=views_g.selectAll("g.views")
 				.data(nested_data)
 				.enter()
 					.append("g")
 					.attr("class","view")
+						.attr("data",function(d){
+							return d.key;
+						})
 						.attr("transform",function(d){
 							return "translate("+parseInt(x_scale(+d.key))+","+(HEIGHT-5)+")"
 						})
@@ -647,19 +619,38 @@
 					.attr("width",1)
 					.attr("height",1);
 
+		var pi=Math.PI,
+			arc = d3.svg.arc()
+		    .innerRadius(0)
+		    .outerRadius(0)
+		    .startAngle(-90 * (pi/180)) //converting from degs to radians
+		    .endAngle(90 * (pi/180)) //just radians
 
-		
-		
-		var m_groups=m_groups.selectAll("g")
-							.data(nested_data2)
-							.enter()
-							.append("g")
-								.attr("data",function(d){
-									return d.key;
-								})
-								.attr("transform",function(d){
-									return "translate("+(parseInt(x_scale(+d.key))-1)+","+(HEIGHT+100)+")"
-								})
+		views.append("path")
+				.attr("d", function(d){
+					arc.outerRadius(r_scale(d.values.mass)*3);
+					return arc();
+				})
+				.attr("transform","translate(0,4)");
+					//.attr("cx",0)
+					//.attr("cy",5)
+					//.attr("d",function(d){
+//
+//  						return h_scale3(d.values.mass)*3;
+  //					});
+    		
+    		
+    		
+    		var m_groups=m_groups.selectAll("g")
+    							.data(nested_data2)
+    							.enter()
+    							.append("g")
+    								.attr("data",function(d){
+    									return d.key;
+    								})
+    								.attr("transform",function(d){
+    									return "translate("+(parseInt(x_scale(+d.key))-1)+","+(HEIGHT+100)+")"
+    								})
 
 		m_groups.append("line")
 					.attr("x1",0)
@@ -697,7 +688,7 @@
 						}).map(function(g){
 							g.y=d.key;
 							return g;
-						});
+						}).slice(0,9);
 					})
 					.enter()
 						.append("g")
@@ -706,9 +697,47 @@
 								return "translate(0,"+(i*16)+")"
 							});
 
+		var plus=m_groups.append("g")
+					.on("click",function(d){
+						d3.event.stopPropagation();
+						if(selected_years.indexOf(+d.key)>-1) {
+							details.container.selectAll("div.meteorites[data='"+d.key+"']")
+								.transition()
+								.duration(1000)
+									.style("opacity",0)
+									.each("end",function(){
+										d3.select(this).remove();
+										selected_years.splice(selected_years.indexOf(+d.key),1);
+										createDetails();
+									});
+							d3.select(this).select("text").attr("dy",0).text("+");
+						} else {
+							selected_years.push(+d.key);
+							createDetails();
+							d3.select(this).select("text").attr("dy",-2).text("–");
+						}
+						
+					});
+
+		plus.append("circle")
+				.attr("class","plus")
+				.attr("cx",0)
+				.attr("cy",function(d){
+					return d.values.slice(0,9).length*16+11;
+				})
+				.attr("r",12);
+
+		plus.append("text")
+				.attr("class","plus")
+				.attr("x",0)
+				.attr("y",function(d){
+					return d.values.slice(0,9).length*16+20
+				})
+				.text("+")
+
 		meteorite_g.append("circle")
 				.attr("cx",function(d){
-					return h_scale2(d.m);
+					return h_scale3(d.m);
 				})
 				.attr("cy",function(d,i){
 					return 0;
@@ -821,7 +850,7 @@
 
 		this.restart=function(){
 			cancelAnimationFrame(raf_id);
-			controls.classed("paused",false);
+			playPause.classed("paused",false);
 			fell=1;
 			year=year_extents[0];
 			current_year=0;
@@ -878,7 +907,7 @@
 				ctx.fillRect(x_scale(x)-18,HEIGHT-1,2,2);
 				ctx.restore();
 				
-				t_year_dom.text(parseInt(x))
+				//t_year_dom.text(parseInt(x))
 			}
 			/*
 			ctx.save();

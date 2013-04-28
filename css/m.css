@@ -53,7 +53,7 @@ h1,h2,h3,h4,h5,h6 {
 	text-rendering: optimizeLegibility;
 }
 h1.logo {
-	font-size: 25px;
+	font-size: 32px;
 	color:#fff;
 	font-weight: normal;
 	font-family: 'ExoExtraLight', sans-serif;
@@ -61,7 +61,7 @@ h1.logo {
 	text-transform: uppercase;
 	margin: -10px 0 5px 0;
 	padding: 0;
-
+	text-shadow: 0px 0px 1px #fff;
 }
 .fixed h1.logo {
 	position: fixed;
@@ -125,38 +125,30 @@ h1.logo {
 	position: relative;
 }
 
-#canvas_container #restart {
+
+#canvas_container #controls {
 	position: absolute;
 	top:10px;
 	right: 10px;
 	text-align: right;
-	font-family: 'ExoRegular', sans-serif;
-	font-size:12px;
-	color:#fff;
-	text-decoration: none;
-	display: block;
+	z-index: 9999999999999;
 }
-#canvas_container #controls {
-	position: absolute;
-	top:25px;
-	right: 10px;
-	text-align: right;
+#canvas_container #controls a{
 	font-family: 'ExoRegular', sans-serif;
-	font-size:12px;
-	color:#fff;
+	font-size:16px;
+	color:#999;
 	text-decoration: none;
-	display: block;
+	background-color: #000;
 }
-#canvas_container #controls span#start,
-#canvas_container #controls.paused span#pause{
+#canvas_container #playPause span#start,
+#canvas_container #playPause.paused span#pause{
 	display:none;
 }
-#canvas_container #controls.paused span#start, 
-#canvas_container #controls span#pause {
+#canvas_container #playPause.paused span#start, 
+#canvas_container #playPause span#pause {
 	display:inline;
 }
-#canvas_container #restart:hover,
-#canvas_container #controls:hover {
+#canvas_container #controls a:hover {
 	color:#4fbeff;
 }
 
@@ -234,16 +226,31 @@ h1.logo {
 	fill-opacity:1;
 	shape-rendering: crispEdges;
 }
-
+#canvas svg.move {
+	cursor: e-resize;
+}
 #canvas .view rect.sq {
 	stroke:none;
 	fill:#aaa;
 	shape-rendering: crispEdges;
 }
+#canvas .view.visible rect.sq {
+	fill:#ffe100;
+}
 #canvas .view rect.bg {
 	stroke:none;
 	fill:#000;
 	fill-opacity:0;
+}
+#canvas .view path {
+	fill:#fff;
+	display: none;
+	cursor: pointer;
+}
+#canvas .view.visible path {
+	display: block;
+	fill:#fff;
+	fill-opacity:0.5;
 }
 #canvas g#circles > g {
 	display: none;
@@ -276,9 +283,27 @@ h1.logo {
 	text-anchor:end;
 	fill:#77d4ff;
 }
-
+#canvas g#circles text.plus {
+	font-size:25px;
+	text-anchor:middle ;
+	fill:#fff;
+	cursor: pointer;
+}
+#canvas g#circles circle.plus {
+	fill:#222;
+	stroke:#fff;
+	stroke-width:2;
+	cursor: pointer;
+}
+#canvas g#circles:hover circle.plus {
+	fill:#000;
+	stroke:#ffe100;
+	stroke-width:2;
+	cursor: pointer;
+}
 #details {
-	width:960px;
+	max-width:960px;
+	width:100%;
 	margin:0 auto;
 	position: relative;
 }
@@ -327,9 +352,10 @@ h1.logo {
 	height: 30px;
 	display: block;
 	width: 90px;
+	border-radius: 5px;
 }
 #details div.m-year a b {
-	border-radius: 3px;
+	
 	font-weight: inherit;
 	display: block;
 	float: right;
@@ -348,6 +374,8 @@ h1.logo {
 	line-height: inherit;
 	color:#555;
 	background-color: #292929;
+	-webkit-border-radius: 5px 0px 0px 5px;
+	border-radius: 5px 0px 0px 5px;
 }
 #details div.m-year a:hover span {
 	color:#000;
@@ -355,39 +383,67 @@ h1.logo {
 	font-weight: bold;
 }
 #details .meteorites ul li.meteorite {
-	width:110px;
+	width: 132px;
 	padding:0 5px;
 	border-right: 1px dotted #111;
 	margin:0 0 5px 0;
-	height:140px;
+	height:150px;
 	float: left;
+	position: relative;
 }
-#details .meteorites:hover ul li.meteorite{
+#details .meteorites:hover ul li.meteorite,
+.touch #details .meteorites ul li.meteorite {
 	background-color: #111;
 	border-right: 1px dotted #333;
 }
-#details .meteorites ul li.meteorite:first-child {
+#details .meteorites ul li.meteorite:first-child,
+#details .meteorites ul li.meteorite:nth-child(6n+1) {
 	-webkit-border-radius: 5px 0px 0px 5px;
 	border-radius: 5px 0px 0px 5px;
 }
 #details .meteorites ul li.meteorite:last-child,
+#details .meteorites ul li.meteorite:nth-child(6n+0),
 #details .meteorites:hover ul li.meteorite:last-child {
 	-webkit-border-radius: 0px 5px 5px 0px;
 	border-radius: 0px 5px 5px 0px;
 	border-right: none;
 }
+#details .meteorites ul li.meteorite:first-child:last-child {
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
 #details ul li.selected {
 	display: block;
 }
-
-#details ul li.meteorite div {
+#details ul li.meteorite div.links {
+	position: absolute;
+	bottom:5px;
+	right:5px;
+	font-size: 15px;
+	display: none;
+	z-index:99999999999;
+}
+.touch #details ul li.meteorite div.links {
+	display: block;
+}
+#details ul li.meteorite div.links a{
+	color:#666;
+	background-color: #111;
+}
+#details ul li.meteorite div.links a:hover{
+	color:#4fbeff;
+}
+#details ul li.meteorite:hover div.links {
+	display: block;
+}
+#details ul li.meteorite div.shape {
 	min-height: 70px;
 	max-height: 70px;
 	height: 70px;
 	display: -webkit-flex;
 	display: flex;
 }
-#details ul li.meteorite div b{
+#details ul li.meteorite div.shape b{
 	-webkit-align-self: center;
 	align-self: center;
 
@@ -402,7 +458,7 @@ h1.logo {
     -o-transition: height 1s ease,width 1s ease;
 	transition: height 1s ease,width 1s ease;
 }
-#details ul li.meteorite:hover div b{
+#details ul li.meteorite:hover div.shape b{
 	background-color: #ffe100;
 }
 #details ul li h3 {
@@ -416,6 +472,7 @@ h1.logo {
 #details ul li.meteorite:hover h3 {
 	color:#ffe100;
 }
+
 #details ul li h3 span {
 	color: #aaa;
 }
@@ -429,8 +486,26 @@ h1.logo {
 }
 #contents {
 	font-size: 13px;
-	width:960px;
+	max-width:960px;
+	width:100%;
 	margin:0 auto;
 	position: relative;
 	color:#ddd;
+}
+#contents h2 {
+	text-align: center;
+	font-family: 'ExoExtraLight', sans-serif;
+	font-weight: normal;
+	color:#ddd;
+	font-size: 20px;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+}
+#contents h2 span {
+	white-space: nowrap;
+}
+#contents h2 b {
+	color:#4fbeff;
+	font-weight: normal;
 }

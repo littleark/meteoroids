@@ -63,7 +63,10 @@ db.open(function(err,client){
 									m:doc.mass_g,
 									y:doc.year,
 									p:doc.place,
-									c:doc.country?doc.country.country:""
+									c:doc.country?doc.country.country:"",
+									u:doc["database"].split("=")[1],
+									t:doc["type_of_meteorite"],
+									l:doc.latitude+","+doc.longitude
 									//year_date:doc.year_date,
 									//fell_found:doc.fell_found
 								};
