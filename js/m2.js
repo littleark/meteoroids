@@ -330,9 +330,12 @@
 			}
 		}
 		d3.select(window).on("scroll",detectScrollTop)
-		
+		var data_for_details=[];
 		function createDetails(data){
 
+			console.log("selected_years", selected_years)
+
+			var data=data || nested_data2;
 			/*
 			var current_mass_extents=d3.extent(data.filter(function(d){
 											return selected_years.indexOf(+d.y)>-1;
@@ -355,9 +358,16 @@
 			var current_mass_extents=d3.extent(ext);
 			console.log(current_mass_extents)
 			r_scale2.domain([0,current_mass_extents[1]]);
+			
 
-			var uls=details.container.selectAll("div.meteorites")
-						//.data(data)
+			console.log("MERDA",data.filter(function(d){
+							return selected_years.indexOf(+d.key)>-1;
+						}));
+
+			var divs=details.container.selectAll("div.meteorites")
+						.data(selected_years)
+						//.remove()
+						/*
 						.data(function(){
 							var a=[];
 							selected_years.forEach(function(y){
@@ -367,40 +377,70 @@
 							});
 							return a;
 						}())
-						.enter()
-							.insert("div", ":first-child")
-								.attr("class","meteorites")
-								.attr("data",function(d){
-									console.log(d)
-									return d.key;
-								});
+						*/
+						//.data(data.filter(function(d){
+						//	return selected_years.indexOf(+d.key)>-1;
+						//}));
+							//.insert("div", ":first-child")
+			//divs.exit().style("opacity",0.2);
 
-			uls.append("div")
+			divs=divs.enter().insert("div", ":first-child")//.append("div")
+				.attr("class","meteorites clearfix")
+				.attr("data",function(d){
+					return +d;
+				})
+				.style("opacity",0.1)
+				
+			
+			
+			divs.append("div")
 				.attr("class","m-year")
 				.append("a")
 					.attr("href","#")
-					.html(function(d){
-						return d.key+"<span>x</span>";
+					.attr("title",function(d){
+						return "Remove year "+d;
 					})
-
-			var lis=uls.append("ul")
-					.selectAll("li.meteorite")
-						.data(function(d){
-							return d.values;
-						})
-						.enter()
-						.append("li")
-							.attr("class","meteorite clearfix");
-
-
+					.html(function(d){
+						return "<b>"+d+"</b>"+"<span>x</span>";
+					})
+					.on("click",function(d){
+						d3.event.preventDefault();
+						
+						details.container.selectAll("div.meteorites[data='"+d+"']")
+								.transition()
+								.duration(1000)
+									.style("opacity",0)
+									.each("end",function(){
+										d3.select(this).remove();
+										selected_years.splice(selected_years.indexOf(d),1);
+										createDetails();
+									})
+						
+					});
+			
+			
+			var lis=divs.append("ul")
+						.selectAll("li.meteorite")
+							//.data(function(d){
+							//	return d.values;
+							//})
+							.data(function(y){
+								var a=data.filter(function(d){
+									return (+d.key)==y;
+								});
+								return a[0].values;
+							})
+							.enter()
+							.append("li")
+								.attr("class","meteorite clearfix");
 
 			lis.append("div")
 					.append("b")
 						.style("width",function(d){
-							return "1px";
+							return "1px";//r_scale2(d.m)+"px"
 						})
 						.style("height",function(d){
-							return "1px";
+							return "1px";//r_scale2(d.m)+"px"
 						});
 
 			lis.append("h3")
@@ -411,18 +451,25 @@
 					.text(function(d){
 						return weight_format(d.m);
 					});
-			setTimeout(function(){
-				details.container.selectAll("li.meteorite")
-					.select("b")
-						.style("width",function(d){
-							return r_scale2(d.m)+"px"
-						})
-						.style("height",function(d){
-							return r_scale2(d.m)+"px"
-						});
-			},200)
-		
-		 	
+			
+			
+			
+			
+
+		 	divs.transition()
+		 			.duration(1000)
+		 			.style("opacity",1);
+
+		 	setTimeout(function(){
+		 		details.container.selectAll("li.meteorite")
+		 			.select("b")
+		 				.style("width",function(d){
+		 					return r_scale2(d.m)+"px"
+		 				})
+		 				.style("height",function(d){
+		 					return r_scale2(d.m)+"px"
+		 				});
+		 	},50)
 		}			
 		function createDetails3(data){
 
@@ -509,7 +556,7 @@
 		var bisectDate = d3.bisector(function(d) { return d.key; }).right;
 		var __year=0;
 		svg.on("mousemove",function(){
-			var	x=d3.mouse(this)[0]+50,
+			var	x=d3.mouse(this)[0],//+50,
 			   	year=x_scale.invert(x);
 			year=year|year;
 

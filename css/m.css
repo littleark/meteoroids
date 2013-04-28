@@ -283,11 +283,12 @@ h1.logo {
 	position: relative;
 }
 #details>div {
-	position: absolute;
+	
 	width:100%;
 }
 #details .meteorites {
 	width:100%;
+	margin-bottom:20px;
 }
 #details h2 {
 	font-family: 'ExoExtraLight', sans-serif;
@@ -310,14 +311,7 @@ h1.logo {
 #details ul.selected {
 	display: block;
 }
-
-#details ul li {
-	margin:5px 0;
-	height:140px;
-	float: left;
-}
 #details div.m-year {
-	line-height: 140px;
 	font-family: 'ExoExtraLight', sans-serif;
 	width: 100px;
 	float: left;
@@ -325,23 +319,48 @@ h1.logo {
 #details div.m-year a {
 	color:#fff;
 	text-decoration: none;
-	font-size: 20px;
+	font-size: 24px;
 	background-color: #222;
-	padding:3px;
+	padding:0;
+	
+	line-height: 30px;
+	height: 30px;
+	display: block;
+	width: 90px;
+}
+#details div.m-year a b {
 	border-radius: 3px;
+	font-weight: inherit;
+	display: block;
+	float: right;
+	width: 60px;
+	text-align: center;
+	height: inherit;
+	line-height: 35px;
 }
 #details div.m-year a span {
- 	line-height: 10px;
- 	font-size: 10px;
- 	display: inline-block;
-}	
-#details ul li.m-year a:hover span {
-	color:#ffff00;
+	font-size: 12px;
+	display: block;
+	float: left;
+	width:30px;
+	text-align: center;
+	height: inherit;
+	line-height: inherit;
+	color:#555;
+	background-color: #292929;
+}
+#details div.m-year a:hover span {
+	color:#000;
+	background-color: #ffe100;
+	font-weight: bold;
 }
 #details .meteorites ul li.meteorite {
 	width:110px;
 	padding:0 5px;
 	border-right: 1px dotted #111;
+	margin:0 0 5px 0;
+	height:140px;
+	float: left;
 }
 #details .meteorites:hover ul li.meteorite{
 	background-color: #111;
@@ -384,7 +403,7 @@ h1.logo {
 	transition: height 1s ease,width 1s ease;
 }
 #details ul li.meteorite:hover div b{
-	background-color: rgba(255,255,255,0.8);
+	background-color: #ffe100;
 }
 #details ul li h3 {
 	margin:0;
@@ -395,7 +414,7 @@ h1.logo {
 	color: #ddd;
 }
 #details ul li.meteorite:hover h3 {
-	color:#fff;
+	color:#ffe100;
 }
 #details ul li h3 span {
 	color: #aaa;
@@ -407,4 +426,11 @@ h1.logo {
 	font-size: 11px;
 	font-weight: normal;
 	
+}
+#contents {
+	font-size: 13px;
+	width:960px;
+	margin:0 auto;
+	position: relative;
+	color:#ddd;
 }
