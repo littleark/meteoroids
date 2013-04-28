@@ -28,27 +28,66 @@ body {
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
 }
+h1,h2,h3,h4,h5,h6 {
+	text-rendering: optimizeLegibility;
+}
+h1.logo {
+	font-size: 25px;
+	color:#fff;
+	font-weight: normal;
+	font-family: 'ExoExtraLight', sans-serif;
+	text-rendering: optimizeLegibility;
+	text-transform: uppercase;
+	margin: -10px 0 5px 0;
+	padding: 0;
+
+}
+.fixed h1.logo {
+	position: fixed;
+	top: 250px;
+	z-index: 999999999999;
+}
+.icon-fire-station {
+	/* Safari */
+	-webkit-transform: rotate(-60deg);
+
+	/* Firefox */
+	-moz-transform: rotate(-60deg);
+
+	/* IE */
+	-ms-transform: rotate(-60deg);
+
+	/* Opera */
+	-o-transform: rotate(-60deg);
+	
+	display: inline-block;
+	text-rendering: geometricPrecision;
+	font-size: 50px;
+	margin-left: -5px;
+	margin-right: -6px;
+	color:#ffe100;
+}
 #year {
 	/*position: fixed;*/
 	position: absolute;
 	top:10px;
 	left:10px;
 	font-family: 'ExoExtraLight', sans-serif;
-	text-transform: uppercase;
+	
 }
 #year h3 {
 	font-family: 'ExoExtraLight', sans-serif;
 	font-weight: normal;
-	color:#fff;
-	font-size:25px;
-	margin:0;
+	color:#ddd;
+	font-size: 20px;
+	margin: 0 0 0 60px;
 	padding: 0;
-	
+	text-transform: uppercase;
 }
 #year h4 {
 	color:#22abef;
 	font-size:18px;
-	margin:0;
+	margin: 0 0 0 60px;
 	padding: 0;
 }
 #year h3 span,
@@ -102,6 +141,7 @@ body {
 
 #canvas {
 	position: relative;
+	height: 500px;
 }
 #canvas circle {
 	fill:#fff;
@@ -114,9 +154,16 @@ body {
 	stroke-width:1;
 	stroke-opacity:0.6;
 }
-
+.fixed #canvas {
+	position: fixed;
+	top:-199px;
+	border-bottom: 1px solid rgba(255,255,255,0.5);
+	z-index:9999999999;
+}
 #canvas canvas {
-	
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
 }
 #canvas svg {
 	position: absolute;
@@ -229,37 +276,75 @@ body {
 #details ul {
 	list-style: none;
 	margin: 0;
-	padding: 0;
+	padding: 0 5px;
+	
+	clear: both;
+	height:150px;
 }
-#details ul li {
-	width:110px;
-	height:140px;
-	float: left;
-	padding:5px;
-	border-radius: 5px;
+#details ul.selected {
+	display: block;
 }
-#details ul li:hover {
+#details ul:hover {
 	background-color: #111;
 }
-#details ul li div.meteorite {
-	min-height: 60px;
+#details ul li {
+	margin:5px 0;
+	height:140px;
+	float: left;
+}
+#details ul li.m-year {
+	line-height: 140px;
+	font-family: 'ExoExtraLight', sans-serif;
+	width: 100px;
+}
+#details ul li.m-year a {
+	color:#fff;
+	text-decoration: none;
+	font-size: 20px;
+	background-color: #222;
+	padding:3px;
+	border-radius: 3px;
+}
+#details ul li.m-year a span {
+ 	line-height: 10px;
+ 	font-size: 10px;
+ 	display: inline-block;
+}	
+#details ul li.m-year a:hover span {
+	color:#ffff00;
+}
+#details ul li.meteorite {
+	width:110px;
+	padding:0 5px;
+	border-radius: 5px;
+}
+#details ul li.selected {
+	display: block;
+}
+#details ul li.meteorite:hover {
+	background-color: #000;
+}
+#details ul li.meteorite div {
+	min-height: 70px;
+	max-height: 70px;
+	height: 70px;
 	display: -webkit-flex;
 	display: flex;
 }
-#details ul li div.meteorite b{
+#details ul li.meteorite div b{
 	-webkit-align-self: center;
 	align-self: center;
 
 	display: block;
 	margin:0 auto;
-	background-color: rgba(255,255,255,0.5);
+	background-color: rgba(255,255,255,0.4);
 	border-radius: 50%;
 
-	-webkit-transition: height 1s ease-out,width 1s ease-out;
-	-moz-transition: height 1s ease-out,width 1s ease-out;
-    -ms-transition: height 1s ease-out,width 1s ease-out;
-    -o-transition: height 1s ease-out,width 1s ease-out;
-	transition: height 1s ease-out,width 1s ease-out;
+	-webkit-transition: height 1s ease,width 1s ease;
+	-moz-transition: height 1s ease,width 1s ease;
+    -ms-transition: height 1s ease,width 1s ease;
+    -o-transition: height 1s ease,width 1s ease;
+	transition: height 1s ease,width 1s ease;
 }
 #details ul li h3 {
 	margin:0;

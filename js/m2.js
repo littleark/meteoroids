@@ -176,7 +176,7 @@
 			return d.m;
 		})
 		var r_scale=d3.scale.sqrt().range([1.5,20]).domain(mass_extents);
-		var r_scale2=d3.scale.sqrt().range([4,60]).domain(mass_extents);
+		var r_scale2=d3.scale.sqrt().rangeRound([4,60]).domain(mass_extents);
 
 		var h_scale=d3.scale.sqrt().range([5,100]).domain(mass_extents);
 		var h_scale2=d3.scale.sqrt().range([2,20]).domain(mass_extents);
@@ -235,7 +235,7 @@
 		}
 
 		var details={
-			container:d3.select("#details"),
+			container:d3.select("#details>div"),
 			list:d3.select("#details ul"),
 			year:d3.select("#details h2 span#dYear"),
 			count:d3.select("#details h2 span#dCount")
@@ -274,15 +274,161 @@
 					});
 		}
 		var selected_years=[];
+		function updateDetails(){
 
+			var current_mass_extents=d3.extent(data.filter(function(d){
+											return selected_years.indexOf(+d.y)>-1;
+											}),function(d){
+										return d.m;
+									});
+			//console.log(current_mass_extents)
+			r_scale2.domain([0,current_mass_extents[1]]);
+
+			//details.list
+			//	.selectAll("li")
+
+			details.container.selectAll("ul")
+					.classed("selected",function(d){
+						console.log(d)
+						return selected_years.indexOf(+d.key)>-1;
+					})
+					.selectAll("li.meteorite")
+						.select("b")
+							.style("width",function(d){
+								return r_scale2(d.m)+"px"
+							})
+							.style("height",function(d){
+								return r_scale2(d.m)+"px"
+							});
+					
+
+
+		}
+		var	body=d3.select("body");
+		function detectScrollTop(){
+			//if(tm) {
+			//	clearTimeout(tm);
+			//}
+			var	top=window.scrollY,
+			   	fixed=body.classed("fixed");
+
+			if(top>=199) {
+					if(!fixed) {
+						setTimeout(function(){
+							body.classed("fixed",true);	
+							d3.select(".logo").style("opacity",0).transition().duration(1000).style("opacity",1);
+						},50)
+					}
+			} else {
+					if(fixed) {
+						setTimeout(function(){
+							d3.select(".logo").style("opacity",0);
+							body.classed("fixed",false);
+							d3.select(".logo").style("opacity",1);	
+						},50)
+					}
+			}
+		}
+		d3.select(window).on("scroll",detectScrollTop)
+		
 		function createDetails(data){
+
+			/*
+			var current_mass_extents=d3.extent(data.filter(function(d){
+											return selected_years.indexOf(+d.y)>-1;
+											}),function(d){
+										return d.m;
+									});
+			//console.log(current_mass_extents)
+			*/
+
+			var ext=[];
+			data.filter(function(d){
+				return selected_years.indexOf(+d.key)>-1;
+			}).forEach(function(d){
+				var ex=d3.extent(d.values,function(y){
+					return y.m;
+				});
+				ext=ext.concat(ex);
+				
+			});
+			var current_mass_extents=d3.extent(ext);
+			console.log(current_mass_extents)
+			r_scale2.domain([0,current_mass_extents[1]]);
+
+			var uls=details.container.selectAll("ul")
+						//.data(data)
+						.data(function(){
+							var a=[];
+							selected_years.forEach(function(y){
+								a=a.concat(data.filter(function(d){
+									return +d.key == y;
+								}))
+							});
+							return a;
+						}())
+						.enter()
+							.insert("ul", ":first-child")
+								.attr("data",function(d){
+									console.log(d)
+									return d.key;
+								});
+
+			uls.append("li")
+				.attr("class","m-year")
+				.append("a")
+					.attr("href","#")
+					.html(function(d){
+						return d.key+"<span>x</span>";
+					})
+
+			var lis=uls.selectAll("li.meteorite")
+				.data(function(d){
+					return d.values;
+				})
+				.enter()
+				.append("li")
+					.attr("class","meteorite");
+
+
+
+			lis.append("div")
+					.append("b")
+						.style("width",function(d){
+							return "1px";
+						})
+						.style("height",function(d){
+							return "1px";
+						});
+
+		 	lis.append("h3")
+		 			.html(function(d){
+		 				return "<b>"+d.p+"</b><br/><span>"+d.c+"</span>";
+		 			});
+		 	lis.append("h4")
+		 			.text(function(d){
+		 				return weight_format(d.m);
+		 			});
+		 	
+		 	details.container.selectAll("li.meteorite")
+		 		.select("b")
+		 			.style("width",function(d){
+		 				return r_scale2(d.m)+"px"
+		 			})
+		 			.style("height",function(d){
+		 				return r_scale2(d.m)+"px"
+		 			});
+		 	
+		}			
+		function createDetails3(data){
 
 			//console.log(data)
 			//details.list.selectAll("li").remove();
 
 			var items=details.list
 					.selectAll("li")
-						
+						.data(data)
+						/*
 						.data(function(){
 							var a=[];
 							selected_years.forEach(function(y){
@@ -292,7 +438,7 @@
 							});
 							return a;
 						}())
-						
+						*/
 						//.data(data.filter(function(d){
 						//	return selected_years.indexOf(+d.y)>-1;
 						//}));
@@ -322,11 +468,7 @@
 					});
 
 
-			var current_mass_extents=d3.extent(items.data(),function(d){
-				return d.m;
-			});
-			console.log(current_mass_extents)
-			r_scale2.domain([0,current_mass_extents[1]]);
+			/*
 			items.selectAll("div.meteorite")
 					.select("b")
 						.transition()
@@ -337,10 +479,10 @@
 							.style("height",function(d){
 								return r_scale2(d.m)+"px"
 							});
-			
+			*/
 		}
 		//createDetails(nested_data2[173]);
-		createDetails(data);
+		createDetails(nested_data2);
 
 		d3.select("#restart")
 			.on("click",function(){
@@ -384,7 +526,9 @@
 				selected_years.push(__year);	
 			}
 			console.log(selected_years)
-			createDetails(data);
+			//createDetails(data);
+			//updateDetails();
+			createDetails(nested_data2);
 		})
 
 		svg.on("touchmove", function(){
@@ -559,11 +703,11 @@
 			for(var i=0;i<data.length;i++) {
 				var d=data[i];
 				
-				var	vel=new Vector2(2.5,1),
+				var	vel=new Vector2(2.5+(-0.5 + Math.random()*2),1),
 				   	angle=vel.angle(),
 				   	dist=vel.clone().reverse();
 				
-				dist.normalise().multiplyEq(200);
+				dist.normalise().multiplyEq(200+(Math.random()*200));
 
 				var	n=dist.magnitude()/vel.magnitude(),
 				   	vel2=vel.clone();
@@ -585,11 +729,11 @@
 				//if(d.year<500)
 				//	console.log(d.year,x_scale(d.year))
 
-				var particle=new Particle(x_scale(d.y)+dist.x + 36,HEIGHT+dist.y,r_scale(d.m));
+				var particle=new Particle(x_scale(d.y)+dist.x,HEIGHT+dist.y,r_scale(d.m));
 				//console.log((+d.y)+Math.random())
 				particle.t=time_scale_delta((+d.y)+Math.random());
 				particle.year=d.y;
-				particle.gravity=gravity;
+				particle.gravity=0;//gravity;
 
 				particle.vel=vel;// +  (mouseVelX*0.4) ;
 				//particle.vel.y = 1;//randomRange(-6,6);// +  (mouseVelY*0.4) ;
@@ -649,7 +793,7 @@
 
 		function clean(){
 			ctx.fillStyle="rgba(0,0,0,1)";
-			ctx.fillRect(0,0, canvas.width,canvas.height);
+			ctx.clearRect(0,0, canvas.width,canvas.height);
 		}
 		function loop() {
 
