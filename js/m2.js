@@ -356,7 +356,7 @@
 			console.log(current_mass_extents)
 			r_scale2.domain([0,current_mass_extents[1]]);
 
-			var uls=details.container.selectAll("ul")
+			var uls=details.container.selectAll("div.meteorites")
 						//.data(data)
 						.data(function(){
 							var a=[];
@@ -368,13 +368,14 @@
 							return a;
 						}())
 						.enter()
-							.insert("ul", ":first-child")
+							.insert("div", ":first-child")
+								.attr("class","meteorites")
 								.attr("data",function(d){
 									console.log(d)
 									return d.key;
 								});
 
-			uls.append("li")
+			uls.append("div")
 				.attr("class","m-year")
 				.append("a")
 					.attr("href","#")
@@ -382,13 +383,14 @@
 						return d.key+"<span>x</span>";
 					})
 
-			var lis=uls.selectAll("li.meteorite")
-				.data(function(d){
-					return d.values;
-				})
-				.enter()
-				.append("li")
-					.attr("class","meteorite");
+			var lis=uls.append("ul")
+					.selectAll("li.meteorite")
+						.data(function(d){
+							return d.values;
+						})
+						.enter()
+						.append("li")
+							.attr("class","meteorite clearfix");
 
 
 
@@ -401,23 +403,25 @@
 							return "1px";
 						});
 
-		 	lis.append("h3")
-		 			.html(function(d){
-		 				return "<b>"+d.p+"</b><br/><span>"+d.c+"</span>";
-		 			});
-		 	lis.append("h4")
-		 			.text(function(d){
-		 				return weight_format(d.m);
-		 			});
-		 	
-		 	details.container.selectAll("li.meteorite")
-		 		.select("b")
-		 			.style("width",function(d){
-		 				return r_scale2(d.m)+"px"
-		 			})
-		 			.style("height",function(d){
-		 				return r_scale2(d.m)+"px"
-		 			});
+			lis.append("h3")
+					.html(function(d){
+						return "<b>"+d.p+"</b><br/><span>"+d.c+"</span>";
+					});
+			lis.append("h4")
+					.text(function(d){
+						return weight_format(d.m);
+					});
+			setTimeout(function(){
+				details.container.selectAll("li.meteorite")
+					.select("b")
+						.style("width",function(d){
+							return r_scale2(d.m)+"px"
+						})
+						.style("height",function(d){
+							return r_scale2(d.m)+"px"
+						});
+			},200)
+		
 		 	
 		}			
 		function createDetails3(data){
