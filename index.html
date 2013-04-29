@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=yes" />
 	<title>BOLIDES - Visualizing meteorites</title>
+	<meta property="description" content="Thousands of meteorites have collided with the Earth since 2500 BC. 34,513 have been recorded. Only 1,042 have been seen falling." >
+
+	<meta property="og:title" content="BOLIDES - Visualizing meteorites">
+	<meta property="og:url" content="http://guns.periscopic.com">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="Thousands of meteorites have collided with the Earth since 2500 BC. 34,513 have been recorded. Only 1,042 have been seen falling. http://bolid.es/ by @littleark" >
+	<meta property="og:image" content="http://bolid.es/img/open_graph.png">
+	
 	<link href='http://fonts.googleapis.com/css?family=Noto+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/fontello.css">
+	<link rel="stylesheet" href="css/fonteorite.css">
 	<link rel="stylesheet" href="css/m.css">
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 </head>
@@ -27,8 +35,18 @@
 		</div>
 		<div class="right">
 		</div>
+		<h5>Data and Source</h5>
+		<p>The data comes from the The Meteoritical Society and contains information on all of the known meteorite landings and it includes 34,513 recordings of found and eye-witnessed meteorites. You can read more about the data at <a href="http://visualizing.org/datasets/meteorite-landings" target="_blank">Visualizing.org</a>.</p>
 	</div>
-	
+	<div id="footer" class="clearfix">
+		<h1 class="logo"><i class="icon-fire-station"></i><br/>bolides<br/><span>a project by <a href="http://www.makinguse.com" target="_blank" title="">Carlo Zapponi</a></span></h1>
+		<div id="social">
+			<a href="http://twitter.com/share?text=Bolides%20-%20Visualizing%20every%20eye-witnessed%20meteorite%20that%20hit%20the%20earth&url=http%3A%2F%2Fbolid.es%2F&via=littleark&url=http%3A%2F%2Fbolid.es&original_referer=http%3A%2F%2Fbolid.es&hashtags=dataviz" target="_blank" title="Share on Twitter"><i class="icon-twitter-circled"></i></a>
+			<a href="http://facebook.com/sharer.php?u=http%3A%2F%2Fbolid.es" target="_blank" title="Share on Facebook"><i class="icon-facebook-circled"></i></a>
+			<a href="http://pinterest.com/pin/create/button/?url=http%3A//bolid.es&media=http%3A//bolid.es/img/bolides.png&description=Bolides%20-%20Visualizing%20every%20eye-witnessed%20meteorite%20that%20hit%20the%20earth" target="_blank"><i class="icon-pinterest-circled"></i></a>
+		</div>
+		<div id="licence" class="clearfix"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" class="cc"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><div>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons BY-NC-SA License</a>.</div></div>
+	</div>
 	<script src="js/libs/Vector2.js"></script>
 	<script src="js/libs/Particle.js"></script>
 	<script src="js/m2.js"></script>

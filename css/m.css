@@ -41,6 +41,9 @@
 .clearfix:after {
     clear: both;
 }
+html {
+	overflow-y: scroll;
+}
 body {
 	background:#000;
 	color:#fff;
@@ -63,7 +66,7 @@ h1.logo {
 	padding: 0;
 	text-shadow: 0px 0px 1px #fff;
 }
-.fixed h1.logo {
+.fixed #year h1.logo {
 	position: fixed;
 	top: 250px;
 	z-index: 999999999999;
@@ -326,7 +329,7 @@ h1.logo {
 }
 #details ul {
 	list-style: none;
-	margin: 0;
+	margin: 0 0 50px 0;
 	padding: 0;
 	
 	clear: right;
@@ -390,6 +393,7 @@ h1.logo {
 	height:150px;
 	float: left;
 	position: relative;
+	background-color: #0a0a0a;
 }
 #details .meteorites:hover ul li.meteorite,
 .touch #details .meteorites ul li.meteorite {
@@ -486,11 +490,25 @@ h1.logo {
 }
 #contents {
 	font-size: 13px;
-	max-width:960px;
+	max-width:860px;
 	width:100%;
 	margin:0 auto;
 	position: relative;
 	color:#ddd;
+}
+#contents a {
+	color:inherit;
+}
+#contents a:hover {
+	color:#4fbeff;
+}
+#contents p {
+	margin:10px 20px;
+}
+#contents h5 {
+	margin:0px 20px;
+	font-size:15px;
+	color:#4fbeff;
 }
 #contents h2 {
 	text-align: center;
@@ -501,6 +519,7 @@ h1.logo {
 	margin: 0;
 	padding: 0;
 	text-transform: uppercase;
+	margin-bottom: 30px;
 }
 #contents h2 span {
 	white-space: nowrap;
@@ -508,4 +527,73 @@ h1.logo {
 #contents h2 b {
 	color:#4fbeff;
 	font-weight: normal;
+}
+#footer {
+	font-size: 13px;
+	max-width:960px;
+	width:100%;
+	margin:0 auto;
+	position: relative;
+	color:#ddd;
+	margin-top:50px;
+}
+#footer h1{
+	text-align: center;
+	font-size: 18px;
+}
+#footer h1.logo {
+	margin: 0;
+}
+#footer h1 .icon-fire-station {
+	font-size:31px;
+	color:#666;
+	text-shadow: 0px 0px 1px #555;
+}
+#footer h1 span {
+	font-family: 'Noto Sans', sans-serif;
+	font-weight: 300;
+	font-size: 10px;
+	font-weight: normal;
+	color: #ccc;
+	text-shadow:none;
+}
+#footer h1 a {
+	color: #fff;
+	text-decoration: none;
+}
+#footer h1 a:hover {
+	color:#4fbeff;
+}
+#footer #social {
+	text-align: center;
+}
+#footer #social a {
+	color:#aaa;
+	text-decoration: none;
+	font-size: 22px;
+	text-shadow: 0px 0px 1px #ffffff;
+}
+#footer #social a:hover {
+	color:#4fbeff;
+	text-shadow: 0px 0px 1px #4fbeff;
+}
+#footer #licence {
+	font-size: 10px;
+	width:310px;
+	margin: 0 auto;
+	border-top:1px solid #444;
+	text-align: center;
+	margin-top: 20px;
+	padding-top: 10px;
+}
+#footer #licence a {
+	color:#aaa;
+	text-decoration: none;
+}
+#footer #licence a:hover {
+	color:#4fbeff;
+}
+#footer #licence a.cc {
+	float:left;
+	margin-right: 10px;
 }

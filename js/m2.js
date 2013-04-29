@@ -960,7 +960,7 @@
 							particle.explode=true;
 							particle.vel.x=0;
 							particle.vel.y=0;
-							particle.radius*=1.1;
+							particle.radius*=1.095;
 							particle.update(canvas);
 							particle.draw(ctx);
 						}
