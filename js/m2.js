@@ -100,12 +100,24 @@
 		//var x_scale=d3.scale.pow().exponent(3).range([100,1100]).domain(year_extents);
 		var x_scale=d3.scale.pow().exponent(5).range([0+50,WIDTH-50]).domain([year_extents[0],year_extents[1]]);//.nice();
 
-		var svg=d3.select("#years")
+		
+		var svg=d3.select("#canvas")
 			//.insert("svg","#info")
-				//.attr("id","years")
+			//	.attr("id","years")
+				.append("svg")
+				.attr("id","years")
 				.attr("width",canvas.width)
-				.attr("height",canvas.height);
+				.attr("height",canvas.height+ground_height);
 
+		//workaround for safari 5.0.5 to support mouseposition
+		svg.append("rect")
+				.attr("x",0)
+				.attr("y",0)
+				.attr("width",canvas.width)
+				.attr("height",canvas.height+ground_height)
+				.style("fill-opacity",0)
+		
+		
 		/*
 		var ground=svg.append("g")
 					.attr("id","ground");
@@ -453,7 +465,10 @@
 		 				})
 		 				.style("height",function(d){
 		 					return r_scale2(d.m)+"px"
-		 				});
+		 				})
+		 				.style("border-radius",function(d){
+		 					return (r_scale2(d.m)/2)+"px"
+		 				})
 		 	},50)
 		}			
 
@@ -491,9 +506,11 @@
 
 		function setInfoBox(el){
 			var first_year=(__year==year_extents[0]);
-				//d3.selectAll("g.visible").classed("visible",false);
-				//d3.selectAll("g[data='"+el.key+"']").classed("visible",true);
+			
+			d3.selectAll(".view.visible").classed("visible",false);
+			d3.select(".view[data='"+el.key+"']").classed("visible",true);
 				//d3.select(".view[data='"+el.key+"']").classed("visible",true);
+
 
 			info.el
 				.style({
@@ -515,7 +532,7 @@
 									.html(function(d){
 										var s=h_scale3(d.m)*2;
 										s=s|s;
-										return "<span>"+d.p+", "+countries[d.c]+"</span> - "+weight_format(d.m)+"<b style=\"width:"+s+"px;height:"+s+"px;top:-"+(s/2+8)+"px;"+(first_year?"left":"right")+":"+(-s/2)+"px;\"></b>";
+										return "<span>"+d.p+", "+countries[d.c]+"</span> - "+weight_format(d.m)+"<b style=\"width:"+s+"px;height:"+s+"px;top:-"+(s/2+8)+"px;"+(first_year?"left":"right")+":"+(-s/2)+"px;border-radius:"+s/2+"px\"></b>";
 									})
 									.on("click",function(d){
 										//d3.event.stopPropagation();
@@ -554,7 +571,7 @@
 		}
 
 		svg.on("mousemove",function(){
-			
+				
 				var	x=d3.mouse(this)[0]+4,//+50,
 				   	year=x_scale.invert(x);
 				year=year|year;
@@ -569,8 +586,8 @@
 				setInfoBox(el);
 
 			} else {
-				//d3.selectAll(".view.visible").classed("visible",false);
-				//d3.select(".view[data='"+el.key+"']").classed("visible",true);
+				d3.selectAll(".view.visible").classed("visible",false);
+				d3.select(".view[data='"+el.key+"']").classed("visible",true);
 			}
 		})
 		.on("mousedown",function(){
