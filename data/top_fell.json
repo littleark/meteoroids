@@ -1,0 +1,149 @@
+/* 0 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ef"),
+  "country" : {
+    "country" : "Russia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=23593",
+  "latitude" : 46.16,
+  "longitude" : 134.65333,
+  "mass_g" : (23000000),
+  "place" : "Sikhote-Alin",
+  "type_of_meteorite" : "Iron, IIAB",
+  "year" : 1947
+}
+
+,/* 1 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22f9"),
+  "country" : {
+    "country" : "China"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12171",
+  "latitude" : 44.05,
+  "longitude" : 126.16667,
+  "mass_g" : 4000000,
+  "place" : "Jilin",
+  "type_of_meteorite" : "H5",
+  "year" : 1976
+}
+
+,/* 2 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2304"),
+  "country" : {
+    "country" : "Mexico"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=2278",
+  "latitude" : 26.96667,
+  "longitude" : -105.31667,
+  "mass_g" : 2000000,
+  "place" : "Allende",
+  "type_of_meteorite" : "CV3",
+  "year" : 1969
+}
+
+,/* 3 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2314"),
+  "country" : {
+    "country" : "United States"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=17922",
+  "latitude" : 39.68333,
+  "longitude" : -99.86667,
+  "mass_g" : 1100000,
+  "place" : "Norton County",
+  "type_of_meteorite" : "Aubrite",
+  "year" : 1948
+}
+
+,/* 4 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2315"),
+  "country" : {
+    "country" : "Turkmenistan"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12379",
+  "latitude" : 42.25,
+  "longitude" : 59.2,
+  "mass_g" : 1100000,
+  "place" : "Kunya-Urgench",
+  "type_of_meteorite" : "H5",
+  "year" : 1998
+}
+
+,/* 5 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b232b"),
+  "country" : {
+    "country" : "China"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12087",
+  "latitude" : 30.80833,
+  "longitude" : 109.5,
+  "mass_g" : 600000,
+  "place" : "Jianshi",
+  "type_of_meteorite" : "Iron, IIIAB",
+  "year" : 1890
+}
+
+,/* 6 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2337"),
+  "country" : {
+    "country" : "Slovakia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12335",
+  "latitude" : 48.9,
+  "longitude" : 22.4,
+  "mass_g" : 500000,
+  "place" : "Knyahinya",
+  "type_of_meteorite" : "L/LL5",
+  "year" : 1866
+}
+
+,/* 7 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2338"),
+  "country" : {
+    "country" : "Russia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=17979",
+  "latitude" : 57.78333,
+  "longitude" : 55.26667,
+  "mass_g" : 500000,
+  "place" : "Ochansk",
+  "type_of_meteorite" : "H4",
+  "year" : 1887
+}
+
+,/* 8 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2343"),
+  "country" : {
+    "country" : "United States"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=18101",
+  "latitude" : 36.06667,
+  "longitude" : -90.5,
+  "mass_g" : 408000,
+  "place" : "Paragould",
+  "type_of_meteorite" : "LL5",
+  "year" : 1930
+}
+
+,/* 9 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b234c"),
+  "country" : {
+    "country" : "Finland"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5064",
+  "latitude" : 60.4,
+  "longitude" : 25.8,
+  "mass_g" : 330000,
+  "place" : "Bjurb\u0326le",
+  "type_of_meteorite" : "L/LL4",
+  "year" : 1899
+}

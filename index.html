@@ -7,7 +7,7 @@
 	<meta property="description" content="Thousands of meteorites have collided with the Earth since 2500 BC. 34,513 have been recorded. Only 1,042 have been seen falling." >
 
 	<meta property="og:title" content="BOLIDES - Visualizing meteorites">
-	<meta property="og:url" content="http://guns.periscopic.com">
+	<meta property="og:url" content="http://bolid.es">
 	<meta property="og:type" content="website">
 	<meta property="og:description" content="Thousands of meteorites have collided with the Earth since 2500 BC. 34,513 have been recorded. Only 1,042 have been seen falling. http://bolid.es" >
 	<meta property="og:image" content="http://bolid.es/img/open_graph.png">
@@ -31,7 +31,6 @@
 		<div id="canvas">
 			<canvas id="falling"></canvas>
 			<div id="ground" class="gradient"></div>
-			<svg id="yearszzzz"></svg>
 			<div id="info">
 				<h6><span></span></h6>
 				<ul></ul>
@@ -43,6 +42,10 @@
 			<a href="#" id="restart"><i class="icon-to-start"></i></a>
 			<a href="#" id="playPause"><span id="start"><i class="icon-play"></i></span><span id="pause"><i class="icon-pause"></i></span></a>
 		</div>
+		<div class="social">
+			<a href="http://twitter.com/share?text=Bolides%20-%20Visualizing%20every%20eye-witnessed%20meteorite%20that%20hit%20the%20earth&url=http%3A%2F%2Fbolid.es%2F&via=littleark&url=http%3A%2F%2Fbolid.es&original_referer=http%3A%2F%2Fbolid.es&hashtags=dataviz" target="_blank" title="Share on Twitter"><i class="icon-twitter-circled"></i></a>
+			<a href="http://facebook.com/sharer.php?u=http%3A%2F%2Fbolid.es" target="_blank" title="Share on Facebook"><i class="icon-facebook-circled"></i></a>
+		</div>
 	</div>
 	<div id="year"><h1 class="logo"><i class="icon-fire-station"></i>bolides</h1><h3>As of year <span></span><br/><b> meteorite</b><br/>were eye-witnessed<br/>on a total of <span>34,513</span></h3></div>
 	<div id="details" class="clearfix"><div class="clearfix"></div><div class="clearfix"></div></div>
@@ -53,29 +56,45 @@
 			<div class="half left">
 				<h3>found meteorites</h3>
 				<ul>
-					<li class="meteorite"><div class="shape"><b style="width: 60px; height: 60px;"></b></div><h3><b>Dresden (Ontario)</b><br><span>CANADA</span><br><span>TYPE: H6</span></h3><h4>MASS: 48 kg</h4><div class="links"><a href="http://here.com/map=42.5,-82.26,8/title=Dresden%20(Ontario),%20CA%20Type:%20H6%20Mass:%2048%20kg" target="_blank"><i class="icon-location"></i></a><a href="http://www.lpi.usra.edu/meteor/metbull.php?code=7731" title="Open at the Meteoritical Society" target="_blank"><i class="icon-link"></i></a></div></li>
 				</ul>
 			</div>
 			<div class="half right">
 				<h3>fell meteorites</h3>
 				<ul>
-					<li class="meteorite"><div class="shape"><b style="width: 60px; height: 60px;"></b></div><h3><b>Dresden (Ontario)</b><br><span>CANADA</span><br><span>TYPE: H6</span></h3><h4>MASS: 48 kg</h4><div class="links"><a href="http://here.com/map=42.5,-82.26,8/title=Dresden%20(Ontario),%20CA%20Type:%20H6%20Mass:%2048%20kg" target="_blank"><i class="icon-location"></i></a><a href="http://www.lpi.usra.edu/meteor/metbull.php?code=7731" title="Open at the Meteoritical Society" target="_blank"><i class="icon-link"></i></a></div></li>
 				</ul>
 			</div>
-			<h5>Bolide</h5>
-			<p>The word <i>bolide</i> comes from Greek <b>βολίς</b> <i>bolis</i>, which means <i>missile</i>.
-			 Astronomers tend to use bolide to identify an exceptionally bright fireball, particularly one that explodes.
-			</p>
-			<h5>Data and Source</h5>
-			<p> The data comes from the <a href="http://www.meteoriticalsociety.org/" target="_blank" title="The Meteoritical Society">The Meteoritical Society</a> and contains information on all of the known meteorite landings. It includes 34,513 recordings of <i>found</i> and <i>fell</i> meteorites. A meteorite is classified as <i>fell</i> if it has been observed by people or automated devices during its fall.<br/>
-			<b>BOLIDES</b> shows all the known <i>fell</i> meteorites that have not been classified as <i>doubtful</i> or <i>discredited</i>.
-			<br/>
-			You can read more about the data at <a href="http://visualizing.org/datasets/meteorite-landings" target="_blank">Visualizing.org</a>.</p>
+			<span class="sep">&bull;</span>
+			<div class="description">
+				<h5>Bolides - The project</h5>
+				<p>
+					BOLIDES is an attempt to visualize and explore the meteorites that have collided with the Earth. The visualization focuses mainly on meteorites that were eye-witnessed when falling and hitting the ground.
+					<br>
+					<br/>
+					Most meteorite falls are recovered on the basis of eye-witness accounts of the fireball or the impact of the object on the ground. 
+					Meteorites fall with virtually equal probability everywhere on the Earth, eye-witnessed meteorites tend to be concentrated in areas with high human population densities such as Europe, Japan, and northern India.
+				</p>
+			</div>
+			<span class="sep">&bull;</span>
+			<div class="description">
+				<h5>Bolide - The meteorite</h5>
+				<p>A meteorite is a solid piece of debris from a body originating in outer space that survives impact with the Earth's surface. The mass of a meteorite can range from few grams to several tonnes. When a body enters the atmosphere the body to heat up and emits light, thus forming a fireball, also known as a meteor or shooting/falling star.</p>
+				<p>The word <i>bolide</i> comes from Greek <b>βολίς</b> <i>bolis</i>, which means <i>missile</i>.
+				 Astronomers tend to use bolide to identify an exceptionally bright fireball, particularly one that explodes.
+				</p>
+			</div>
+			<span class="sep">&bull;</span>
+			<div class="description">
+				<h5>Data and Source</h5>
+				<p> The data comes from the <a href="http://www.meteoriticalsociety.org/" target="_blank" title="The Meteoritical Society">The Meteoritical Society</a> and contains information on all of the known meteorite landings. It includes 34,513 recordings of <i>found</i> and <i>fell</i> meteorites. A meteorite is classified as <i>fell</i> if it has been observed by people or automated devices during its fall.<br/>
+				BOLIDES shows all the known <i>fell</i> meteorites that have not been classified as <i>doubtful</i> or <i>discredited</i>.
+				<br/>
+				You can read more about the data at <a href="http://visualizing.org/datasets/meteorite-landings" target="_blank">Visualizing.org</a>.</p>
+			</div>
 		</div>
 	</div>
 	<div id="footer" class="clearfix transparent hidden">
 		<h1 class="logo"><i class="icon-fire-station"></i><br/>bolides<br/><span>a project by <a href="http://www.makinguse.com" target="_blank" title="">Carlo Zapponi</a></span></h1>
-		<div id="social">
+		<div class="social">
 			<a href="http://twitter.com/share?text=Bolides%20-%20Visualizing%20every%20eye-witnessed%20meteorite%20that%20hit%20the%20earth&url=http%3A%2F%2Fbolid.es%2F&via=littleark&url=http%3A%2F%2Fbolid.es&original_referer=http%3A%2F%2Fbolid.es&hashtags=dataviz" target="_blank" title="Share on Twitter"><i class="icon-twitter-circled"></i></a>
 			<a href="http://facebook.com/sharer.php?u=http%3A%2F%2Fbolid.es" target="_blank" title="Share on Facebook"><i class="icon-facebook-circled"></i></a>
 			<a href="http://pinterest.com/pin/create/button/?url=http%3A//bolid.es&media=http%3A//bolid.es/img/bolides.png&description=Bolides%20-%20Visualizing%20every%20eye-witnessed%20meteorite%20that%20hit%20the%20earth" target="_blank"><i class="icon-pinterest-circled"></i></a>

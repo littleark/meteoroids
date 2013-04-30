@@ -31,6 +31,7 @@
 
 	var moz=!!navigator.userAgent.match(/firefox/i);
 	var chrome=window.chrome || false;
+	var is_touch_device = 'ontouchstart' in document.documentElement;
 
 	var DEG2RAD=Math.PI/180;
 
@@ -38,10 +39,10 @@
 	   	HEIGHT=200;
 
 	var metorites;
+	var playing=true;
 
 	var duration=60*1000;
-	var	apikey="VeKnm4WYzbUPhWSpcVs6lFrde-bNeBTI",
-	   	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0},'type_of_meteorite':{$nin:[/Doubt/]}}",
+	var	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0},'type_of_meteorite':{$nin:[/Doubt/]}}",
 	   	fields="{'mass_g':1,'year':1,'place':1}",
 	   	sorting="{'year':1}";
 	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0}}";
@@ -57,7 +58,7 @@
 			d.p=d.place;
 		})
 		*/
-		var is_touch_device = 'ontouchstart' in document.documentElement;
+		
 		d3.select("body").classed("touch",is_touch_device);
 
 		metorites=new Metorites(json);
@@ -104,10 +105,51 @@
 		var svg=d3.select("#canvas")
 			//.insert("svg","#info")
 			//	.attr("id","years")
-				.append("svg")
-				.attr("id","years")
-				.attr("width",canvas.width)
-				.attr("height",canvas.height+ground_height);
+			  	.append("svg")
+			  	.attr("id","years")
+			  	.attr("width",canvas.width)
+			  	.attr("height",canvas.height+ground_height)
+			  	//.attr("viewBox","0 0 "+canvas.width+" "+canvas.height+ground_height)
+			  	//.attr("preserveAspectRatio","xMidYMid")
+		d3.select(window).on("resize", function() {
+			
+			if(WIDTH==window.innerWidth)
+				return;
+
+			WIDTH=window.innerWidth;
+
+		    svg.attr("width",WIDTH)
+		    canvas.width=WIDTH;
+			
+			x_scale.range([0+50,WIDTH-50]);
+
+			axis.selectAll("text")
+						.attr("x",function(d){
+							return parseInt(x_scale(d))
+						})
+
+			views_g.selectAll("g.view")
+					.attr("transform",function(d){
+						return "translate("+parseInt(x_scale(+d.key))+","+(HEIGHT-5)+")"
+					});
+
+			isto.selectAll("rect")
+					.attr("x",function(d){
+						return parseInt(x_scale(+d.key)-1);
+					});
+
+			info.el
+				.style({
+					"left":x_scale(__year)+"px"
+				})
+
+			//if(playing) {
+				metorites.restart();
+			//} else {
+			//	drawEarth();
+			//}
+
+		});
 
 		//workaround for safari 5.0.5 to support mouseposition
 		svg.append("rect")
@@ -148,10 +190,6 @@
 
 		var axis=svg.append("g")
 				.attr("id","axis");
-
-
-
-		
 
 		axis.selectAll("text")
 					.data(v_years)
@@ -296,6 +334,9 @@
 			//if(tm) {
 			//	clearTimeout(tm);
 			//}
+			if(is_touch_device)
+				return;
+
 			var	top=window.scrollY || window.pageYOffset,
 			   	fixed=body.classed("fixed");
 
@@ -324,7 +365,7 @@
 		var data_for_details=[];
 		function createDetails(data){
 
-			console.log("selected_years", selected_years)
+			//console.log("selected_years", selected_years)
 
 			var data=data || nested_data2;
 			/*
@@ -431,7 +472,10 @@
 						})
 						.style("height",function(d){
 							return "1px";//r_scale2(d.m)+"px"
-						});
+						})
+						.style("top",function(d){
+							return "35px"
+						})
 
 			lis.append("h3")
 					.html(function(d){
@@ -468,6 +512,9 @@
 		 				})
 		 				.style("border-radius",function(d){
 		 					return (r_scale2(d.m)/2)+"px"
+		 				})
+		 				.style("top",function(d){
+		 					return 35 - (r_scale2(d.m)/2)+"px"
 		 				})
 		 	},50)
 		}			
@@ -571,14 +618,14 @@
 		}
 
 		svg.on("mousemove",function(){
-				
-				var	x=d3.mouse(this)[0]+4,//+50,
-				   	year=x_scale.invert(x);
-				year=year|year;
+			   	
+			var	x=d3.mouse(this)[0]+4,//+50,
+			   	year=x_scale.invert(x);
+			year=year|year;
 
-				var	i=bisectDate(nested_data2,year,1),
-				   	el=nested_data2[i-1];
-				//__year= +el.key;
+			var	i=bisectDate(nested_data2,year,1),
+			   	el=nested_data2[i-1];
+			//__year= +el.key;
 
 
 			if(mousedown && __year != +el.key) {
@@ -609,8 +656,19 @@
 			mousedown=false;
 		})
 		.on("click",function(){
-			d3.selectAll("g.visible").classed("visible",false);
-			d3.selectAll("g[data='"+__year+"']").classed("visible",true);
+
+			var	x=d3.mouse(this)[0]+4,//+50,
+			   	year=x_scale.invert(x);
+			year=year|year;
+
+			var	i=bisectDate(nested_data2,year,1),
+			   	el=nested_data2[i-1];
+			//__year= +el.key;
+
+
+				__year= +el.key;
+				setInfoBox(el);
+
 		});
 
 		d3.select(document)
@@ -991,15 +1049,7 @@
 			ctx.fillStyle="rgba(0,0,0,1)";
 			ctx.clearRect(0,0, canvas.width,canvas.height);
 		}
-		function loop() {
-
-			//ctx.fillStyle="rgb(0,0,0)";
-			ctx.fillStyle="rgba(0,0,0,0.2)";
-			//ctx.fillRect(x_scale(min_year),0, (x_scale(max_year)+100)-x_scale(min_year), HEIGHT);
-			ctx.fillRect(0,0, WIDTH, HEIGHT);
-
-			var x=(time_scale_delta.invert(t));
-
+		function drawEarth(){
 			ctx.save();
 			ctx.strokeStyle ="#fff";
 			ctx.lineWidth = 1;
@@ -1008,84 +1058,74 @@
 			ctx.lineTo(WIDTH,HEIGHT);
 			ctx.stroke();
 			ctx.restore();
+		}
+		function loop() {
+
+			ctx.fillStyle="rgba(0,0,0,0.2)";
+			ctx.fillRect(0,0, WIDTH, HEIGHT);
+
+			var x=(time_scale_delta.invert(t));
+
+			drawEarth();
 
 			if(x<=year_extents[1]) {
-				/*
-				ctx.save();
-				ctx.fillStyle="#22abef";
-				//ctx.fillText(t+" ==> "+parseInt(time_scale_delta.invert(t)),10,HEIGHT-10);
-				ctx.font="20px Arial";
-				ctx.fillText("YEAR "+parseInt(x),10,40+20);
-				ctx.restore();
-				*/
 				ctx.save();
 				ctx.fillStyle="#000";
 				ctx.fillRect(x_scale(x)-18,HEIGHT-1,2,2);
 				ctx.restore();
-				
-				//t_year_dom.text(parseInt(x))
 			}
-			/*
-			ctx.save();
-			ctx.font="40px Arial";
-			ctx.fillStyle="rgb(255,255,255)";
-			ctx.fillText(year+((year<0)?"BC":"AD"),10,40);
-			ctx.restore();
-			*/
+
 			if(current_year!=year) {
 				year_dom.text(year)
 				views_dom.text(big_format(fell)+" metorite"+((fell>1)?"s":""))	
 				current_year=year;
 			}
-			//update();
-			//min_year=year_extents[1];
-			//max_year=0;
-			//update();
+
 			draw();
 
 			var current_time=new Date().getTime();
 			t+=(current_time-time);
 			time=current_time;
 
+			
 			if(t<duration+5000) {
+				playing=true;
 				raf_id=requestAnimationFrame(loop);
+			} else {
+				playing=false;
 			}
+			
+			//if(playing)
+			//	loop();
 		}
-
+		this.isPlaying=function(){
+			return playing;
+		}
 		function draw() {
 			
 			for (var i=0; i<particles.length; i++) {
 				var particle = particles[i]; 
+				if(particle.pos.y<HEIGHT-1 && particle.t<t && !particle.explode) {
 
-				//if(particle.alpha>0.1) {
+					particle.update(canvas);
+					year=particle.year;
+					particle.draw(ctx);
+					fell=i+1;
 
-					if(particle.pos.y<HEIGHT-1 && particle.t<t && !particle.explode) {
+				} else {
 
-						particle.update(canvas);
-						year=particle.year;
-						particle.draw(ctx);
-						fell=i+1;
-						//if(particle.year<0)
-						//		console.log(particle)
-					} else {
-						//if(i==3 && !particle.explode)
-						//	console.log(particle.pos);
-
-						if(!(particle.pos.y<HEIGHT-1)) {
-							
-							particle.explode=true;
-							particle.vel.x=0;
-							particle.vel.y=0;
-							particle.radius*=1.095;
-							particle.update(canvas);
-							particle.draw(ctx);
-						}
+					if(!(particle.pos.y<HEIGHT-1)) {
 						
+						particle.explode=true;
+						particle.vel.x=0;
+						particle.vel.y=0;
+						particle.radius*=1.095;
+						particle.update(canvas);
+						particle.draw(ctx);
 					}
 					
-				//}
-				
-				
+				}
+
 				// render it
 				//console.log(particle)
 				
@@ -1094,3 +1134,366 @@
 		}
 
 	}
+
+
+
+	var top_fell=[
+
+/* 0 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ef"),
+  "country" : {
+    "country" : "Russia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=23593",
+  "latitude" : 46.16,
+  "longitude" : 134.65333,
+  "mass_g" : (23000000),
+  "place" : "Sikhote-Alin",
+  "type_of_meteorite" : "Iron, IIAB",
+  "year" : 1947
+}
+
+,/* 1 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22f9"),
+  "country" : {
+    "country" : "China"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12171",
+  "latitude" : 44.05,
+  "longitude" : 126.16667,
+  "mass_g" : 4000000,
+  "place" : "Jilin",
+  "type_of_meteorite" : "H5",
+  "year" : 1976
+}
+
+,/* 2 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2304"),
+  "country" : {
+    "country" : "Mexico"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=2278",
+  "latitude" : 26.96667,
+  "longitude" : -105.31667,
+  "mass_g" : 2000000,
+  "place" : "Allende",
+  "type_of_meteorite" : "CV3",
+  "year" : 1969
+}
+
+,/* 3 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2314"),
+  "country" : {
+    "country" : "United States"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=17922",
+  "latitude" : 39.68333,
+  "longitude" : -99.86667,
+  "mass_g" : 1100000,
+  "place" : "Norton County",
+  "type_of_meteorite" : "Aubrite",
+  "year" : 1948
+}
+
+,/* 4 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2315"),
+  "country" : {
+    "country" : "Turkmenistan"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12379",
+  "latitude" : 42.25,
+  "longitude" : 59.2,
+  "mass_g" : 1100000,
+  "place" : "Kunya-Urgench",
+  "type_of_meteorite" : "H5",
+  "year" : 1998
+}
+
+,/* 5 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b232b"),
+  "country" : {
+    "country" : "China"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12087",
+  "latitude" : 30.80833,
+  "longitude" : 109.5,
+  "mass_g" : 600000,
+  "place" : "Jianshi",
+  "type_of_meteorite" : "Iron, IIIAB",
+  "year" : 1890
+}
+
+,/* 6 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2337"),
+  "country" : {
+    "country" : "Slovakia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=12335",
+  "latitude" : 48.9,
+  "longitude" : 22.4,
+  "mass_g" : 500000,
+  "place" : "Knyahinya",
+  "type_of_meteorite" : "L/LL5",
+  "year" : 1866
+}
+
+,/* 7 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2338"),
+  "country" : {
+    "country" : "Russia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=17979",
+  "latitude" : 57.78333,
+  "longitude" : 55.26667,
+  "mass_g" : 500000,
+  "place" : "Ochansk",
+  "type_of_meteorite" : "H4",
+  "year" : 1887
+}
+
+,/* 8 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b2343"),
+  "country" : {
+    "country" : "United States"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=18101",
+  "latitude" : 36.06667,
+  "longitude" : -90.5,
+  "mass_g" : 408000,
+  "place" : "Paragould",
+  "type_of_meteorite" : "LL5",
+  "year" : 1930
+}
+
+,/* 9 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b234c"),
+  "country" : {
+    "country" : "Finland"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5064",
+  "latitude" : 60.4,
+  "longitude" : 25.8,
+  "mass_g" : 330000,
+  "place" : "Bjurböle",
+  "type_of_meteorite" : "L/LL4",
+  "year" : 1899
+}
+
+
+];
+
+var top_found=[
+/* 0 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22e7"),
+  "country" : {
+    "country" : "Namibia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=11890",
+  "latitude" : -19.58333,
+  "longitude" : 17.91667,
+  "mass_g" : (60000000),
+  "place" : "Hoba",
+  "type_of_meteorite" : "Iron, IVB",
+  "year" : 1920
+}
+
+,/* 1 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22e8"),
+  "country" : {
+    "country" : "Greenland"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5262",
+  "latitude" : 76.13333,
+  "longitude" : -64.93333,
+  "mass_g" : (58200000),
+  "place" : "Cape York",
+  "type_of_meteorite" : "Iron, IIIAB",
+  "year" : 1818
+}
+
+,/* 2 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22e9"),
+  "country" : {
+    "country" : "Argentina"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5247",
+  "latitude" : -27.46667,
+  "longitude" : -60.58333,
+  "mass_g" : (50000000),
+  "place" : "Campo del Cielo",
+  "type_of_meteorite" : "Iron, IAB-MG",
+  "year" : 1576
+}
+
+,/* 3 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ea"),
+  "country" : {
+    "country" : "United States"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5257",
+  "latitude" : 35.05,
+  "longitude" : -111.03333,
+  "mass_g" : (30000000),
+  "place" : "Canyon Diablo",
+  "type_of_meteorite" : "Iron, IAB-MG",
+  "year" : 1891
+}
+
+,/* 4 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22eb"),
+  "country" : {
+    "country" : "China"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=2335",
+  "latitude" : 47,
+  "longitude" : 88,
+  "mass_g" : (28000000),
+  "place" : "Armanty",
+  "type_of_meteorite" : "Iron, IIIE",
+  "year" : 1898
+}
+
+,/* 5 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ec"),
+  "country" : {
+    "country" : "Namibia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=10912",
+  "latitude" : -25.5,
+  "longitude" : 18,
+  "mass_g" : (26000000),
+  "place" : "Gibeon",
+  "type_of_meteorite" : "Iron, IVA",
+  "year" : 1836
+}
+
+,/* 6 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ed"),
+  "country" : {
+    "country" : "Mexico"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5363",
+  "latitude" : 27,
+  "longitude" : -105.1,
+  "mass_g" : (24300000),
+  "place" : "Chupaderos",
+  "type_of_meteorite" : "Iron, IIIAB",
+  "year" : 1852
+}
+
+,/* 7 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ee"),
+  "country" : {
+    "country" : "Australia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=16852",
+  "latitude" : -30.78333,
+  "longitude" : 127.55,
+  "mass_g" : (24000000),
+  "place" : "Mundrabilla",
+  "type_of_meteorite" : "Iron, IAB-ung",
+  "year" : 1911
+}
+
+,/* 8 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ef"),
+  "country" : {
+    "country" : "Russia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=23593",
+  "latitude" : 46.16,
+  "longitude" : 134.65333,
+  "mass_g" : (23000000),
+  "place" : "Sikhote-Alin",
+  "type_of_meteorite" : "Iron, IIAB",
+  "year" : 1947
+}
+
+,/* 9 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22f0"),
+  "country" : {
+    "country" : "Mexico"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=4919",
+  "latitude" : 26.2,
+  "longitude" : -107.83333,
+  "mass_g" : (22000000),
+  "place" : "Bacubirito",
+  "type_of_meteorite" : "Iron, ungrouped",
+  "year" : 1863
+}];
+
+function buildHTML(d,data) {
+	var big_format=d3.format(",.0f");
+
+	var weight_format=function(n){
+		var n=d3.format(".2s")(n);
+		n=(n.search(/[kM]+/g)>-1)?(n.replace("k"," kg").replace("M"," ton")):n+" gr";
+		return n;
+	};
+
+	var	lat=(d.latitude / d.latitude.toFixed() > 1)?d.latitude:d.latitude.toFixed(1),
+	   	lng=(d.longitude / d.longitude.toFixed() > 1)?d.longitude:d.longitude.toFixed(1);
+
+	var mass_extents=d3.extent(data,function(d){
+		return d.mass_g;
+	})
+	var	r_scale2=d3.scale.sqrt().rangeRound([5,100]).domain(mass_extents),
+	   	r=r_scale2(d.mass_g);
+
+	var str="<div class=\"m-shape\"><b style=\"width: "+r+"px; height: "+r+"px;border-radius:"+(r/2)+"px;-webkit-border-radius:"+(r/2)+"px;margin-top:"+parseInt(50-r/2)+"px\"></b></div>"
+	+"<div class=\"m-info\">"
+		+"<span class=\"place\">"+d.place+"</span>"
+		+"<br/>"
+		+"<span>"+d.country.country+", "+d.year+"</span>"
+		+"<br/><span>TYPE: "+d.type_of_meteorite+"</span>"
+		+"<br/>"
+		+"<span>MASS: "+weight_format(d.mass_g)+"</span>"
+		+"<br/>"
+		+"<a href=\"http://here.com/map="+lat+","+lng+",8/title="+encodeURI(d.place+', '+d.country.country+' Type: '+d.type_of_meteorite+" Mass: "+weight_format(d.m))+"\" target=\"_blank\"><i class=\"icon-location\"></i></a>"
+		+"<a href=\""+d.database+"\" title=\"Open at the Meteoritical Society\" target=\"_blank\"><i class=\"icon-link\"></i></a>"
+	+"</div>";
+
+	return str;
+}
+
+d3.select("div.half.right ul")
+	.selectAll("li")
+		.data(top_fell)
+		.enter()
+			.append("li")
+			.attr("class","comparison")
+			.html(function(d){
+				return buildHTML(d,top_found.concat(top_fell));	
+			});
+
+d3.select("div.half.left ul")
+	.selectAll("li")
+		.data(top_found)
+		.enter()
+			.append("li")
+			.attr("class","comparison")
+			.html(function(d){
+				return buildHTML(d,top_found.concat(top_fell));	
+			})
+

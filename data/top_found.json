@@ -1,0 +1,149 @@
+/* 0 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22e7"),
+  "country" : {
+    "country" : "Namibia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=11890",
+  "latitude" : -19.58333,
+  "longitude" : 17.91667,
+  "mass_g" : (60000000),
+  "place" : "Hoba",
+  "type_of_meteorite" : "Iron, IVB",
+  "year" : 1920
+}
+
+,/* 1 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22e8"),
+  "country" : {
+    "country" : "Greenland"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5262",
+  "latitude" : 76.13333,
+  "longitude" : -64.93333,
+  "mass_g" : (58200000),
+  "place" : "Cape York",
+  "type_of_meteorite" : "Iron, IIIAB",
+  "year" : 1818
+}
+
+,/* 2 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22e9"),
+  "country" : {
+    "country" : "Argentina"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5247",
+  "latitude" : -27.46667,
+  "longitude" : -60.58333,
+  "mass_g" : (50000000),
+  "place" : "Campo del Cielo",
+  "type_of_meteorite" : "Iron, IAB-MG",
+  "year" : 1576
+}
+
+,/* 3 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ea"),
+  "country" : {
+    "country" : "United States"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5257",
+  "latitude" : 35.05,
+  "longitude" : -111.03333,
+  "mass_g" : (30000000),
+  "place" : "Canyon Diablo",
+  "type_of_meteorite" : "Iron, IAB-MG",
+  "year" : 1891
+}
+
+,/* 4 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22eb"),
+  "country" : {
+    "country" : "China"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=2335",
+  "latitude" : 47,
+  "longitude" : 88,
+  "mass_g" : (28000000),
+  "place" : "Armanty",
+  "type_of_meteorite" : "Iron, IIIE",
+  "year" : 1898
+}
+
+,/* 5 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ec"),
+  "country" : {
+    "country" : "Namibia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=10912",
+  "latitude" : -25.5,
+  "longitude" : 18,
+  "mass_g" : (26000000),
+  "place" : "Gibeon",
+  "type_of_meteorite" : "Iron, IVA",
+  "year" : 1836
+}
+
+,/* 6 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ed"),
+  "country" : {
+    "country" : "Mexico"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=5363",
+  "latitude" : 27,
+  "longitude" : -105.1,
+  "mass_g" : (24300000),
+  "place" : "Chupaderos",
+  "type_of_meteorite" : "Iron, IIIAB",
+  "year" : 1852
+}
+
+,/* 7 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ee"),
+  "country" : {
+    "country" : "Australia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=16852",
+  "latitude" : -30.78333,
+  "longitude" : 127.55,
+  "mass_g" : (24000000),
+  "place" : "Mundrabilla",
+  "type_of_meteorite" : "Iron, IAB-ung",
+  "year" : 1911
+}
+
+,/* 8 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22ef"),
+  "country" : {
+    "country" : "Russia"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=23593",
+  "latitude" : 46.16,
+  "longitude" : 134.65333,
+  "mass_g" : (23000000),
+  "place" : "Sikhote-Alin",
+  "type_of_meteorite" : "Iron, IIAB",
+  "year" : 1947
+}
+
+,/* 9 */
+{
+  "_id" : ("5177f1afe7cd083a5a9b22f0"),
+  "country" : {
+    "country" : "Mexico"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=4919",
+  "latitude" : 26.2,
+  "longitude" : -107.83333,
+  "mass_g" : (22000000),
+  "place" : "Bacubirito",
+  "type_of_meteorite" : "Iron, ungrouped",
+  "year" : 1863
+}

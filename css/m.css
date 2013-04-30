@@ -150,7 +150,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	height: 600px;
 	position: relative;
 }
-
+.fixed #canvas_container {
+	z-index: 99999999999999999999999999;
+	position: fixed;
+	top:-299px;
+	height: 450px;
+}
 
 #canvas_container #controls {
 	position: absolute;
@@ -197,11 +202,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	stroke-opacity:0.6;
 }
 .fixed #canvas {
-	position: fixed;
-	top:-299px;
+	position: absolute;
 	height:350px;
 	z-index:9999999999;
 	overflow: hidden;
+}
+body.fixed {
+	padding-top:600px;
 }
 #canvas canvas {
 	display: inline-block;
@@ -239,6 +246,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 	display: none;
 	opacity: 0;
+
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none
 }
 #info:hover {
 	opacity: 1 !important;
@@ -289,7 +304,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	overflow: hidden;
 	display: inline-block;
 	max-width: 174px;
-	line-height: 10px;
+}
+@-moz-document url-prefix() {
+	#info ul a span {
+		line-height: 10px;
+		overflow: visible;
+	}
 }
 #info ul li:nth-child(2n+1) a {
 	color:#999;
@@ -393,7 +413,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	shape-rendering: crispEdges;
 }
 #canvas svg { /*.move*/
-	cursor: e-resize;
+	cursor: move;
 }
 #canvas .view rect.sq {
 	stroke:none;
@@ -475,7 +495,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	margin-top: -20px;
 }
 #details>div {
-	
 	width:100%;
 }
 #details .meteorites {
@@ -599,6 +618,7 @@ ul li.meteorite div.links {
 ul li.meteorite div.links a{
 	color:#666;
 	background-color: #111;
+	text-decoration: none;
 }
 ul li.meteorite div.links a:hover{
 	color:#4fbeff;
@@ -610,12 +630,11 @@ ul li.meteorite div.shape {
 	min-height: 70px;
 	max-height: 70px;
 	height: 70px;
-	display: -webkit-flex;
-	display: flex;
+
+	position: relative;
 }
 ul li.meteorite div.shape b{
-	-webkit-align-self: center;
-	align-self: center;
+	position: relative;
 
 	display: block;
 	margin:0 auto;
@@ -634,7 +653,7 @@ ul li.meteorite:hover div.shape b{
 }
 ul li.meteorite h3 {
 	margin:0;
-	padding: 0;
+	padding: 0 0 0 10px;
 	font-size: 11px;
 	font-weight: normal;
 	text-transform: uppercase;
@@ -650,7 +669,7 @@ ul li.meteorite h3 span {
 ul li.meteorite h4 {
 	color: #aaa;
 	margin:0;
-	padding: 0;
+	padding: 0 0 0 10px;
 	font-size: 11px;
 	font-weight: normal;
 	
@@ -667,6 +686,9 @@ ul li.meteorite h4 {
 #contents #stuff {
 	opacity:0;
 }
+.touch #contents #stuff {
+	opacity:1 !important;
+}
 #contents a {
 	color:inherit;
 }
@@ -675,12 +697,16 @@ ul li.meteorite h4 {
 }
 #contents p {
 	margin:10px 0px;
+	font-size: 14px;
 }
 #contents h5 {
+	font-family: 'ExoExtraLight', sans-serif;
 	margin:0;
 	font-size:15px;
 	color:#4fbeff;
 	font-weight: normal;
+	text-transform: uppercase;
+	text-align: center;
 }
 #contents h2 {
 	text-align: center;
@@ -735,11 +761,65 @@ ul li.meteorite h4 {
 	text-align: left;
 }
 #contents .half ul {
-	margin:0;
+	margin:20px 0;
 	padding:0;
 	list-style: none;
 }
+#contents li.comparison {
+	height:120px;
+}
+#contents li.comparison > div{
+	float: left;
+}
+#contents .left li.comparison > div{
+	float: right;
+}
+#contents li.comparison div.m-info {
+	margin-left:30px;
+	margin-top:15px;
+}
+#contents .left li.comparison div.m-info {
+	margin-right:30px;
+	margin-left:0px;
+	text-align: right;
 
+}
+#contents li.comparison div.m-info span.place {
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #fff;
+}
+#contents li.comparison:hover div.m-info span.place {
+	color: #ffe100;
+}
+#contents li.comparison div.m-shape {
+	margin-left:35px;
+	width:100px;
+	height:100px;
+	text-align: center;
+}
+#contents .left li.comparison div.m-shape {
+	margin-right:35px;
+	margin-left: 0;
+}
+#contents li.comparison div.m-shape b{
+	position: relative;
+	display: block;
+	margin:0 auto;
+	background-color: rgba(255,255,255,0.4);
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+}
+#contents li.comparison:hover div.m-shape b{
+	background-color: #ffe100;
+}
+#contents .description {
+	margin:20px 100px;
+	padding:10px;
+	background-color:#111;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
 #footer {
 	font-size: 13px;
 	max-width:960px;
@@ -776,18 +856,56 @@ ul li.meteorite h4 {
 #footer h1 a:hover {
 	color:#4fbeff;
 }
-#footer #social {
-	text-align: center;
+.social {
+	opacity: 0.6;
+
+	-webkit-transition: opacity 500ms ease;
+	-moz-transition: opacity 500ms ease;
+    -ms-transition: opacity 500ms ease;
+    -o-transition: opacity 500ms ease;
+	transition: opacity 500ms ease;
 }
-#footer #social a {
+.social:hover {
+	opacity: 1;
+}
+
+#footer .social {
+	text-align: center;
+	font-size: 22px;
+}
+.social a {
 	color:#aaa;
 	text-decoration: none;
-	font-size: 22px;
 	/*text-shadow: 0px 0px 1px #000;*/
 }
-#footer #social a:hover {
+.social a:hover {
 	color:#4fbeff;
 	/*text-shadow: 0px 0px 1px #000;*/
+}
+#canvas_container .social {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	text-align: center;
+	z-index: 9999999999999;
+	font-size: 18px;
+	opacity: 0;
+	white-space: nowrap;
+}
+#canvas_container .social a {
+	margin: 0 -4px;
+}
+.fixed #canvas_container .social {
+	opacity: 0.6;
+}
+.fixed #canvas_container .social:hover {
+	opacity: 1;
+}
+.touch #canvas_container .social {
+	display: none;
+}
+.touch .social {
+	opacity: 1 !important;
 }
 #footer #licence {
 	font-size: 11px;
