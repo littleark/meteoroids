@@ -79,7 +79,7 @@
 		var views_dom=d3.select("#year h3 b");
 		//var t_year_dom=d3.select("#year h4 span");
 
-		var	canvas = document.createElement( 'canvas' ),
+		var	canvas = document.getElementById( 'falling' ),
 		   	ctx = canvas.getContext( '2d' );
 
 
@@ -106,6 +106,7 @@
 				.attr("width",canvas.width)
 				.attr("height",canvas.height);
 
+		/*
 		var ground=svg.append("g")
 					.attr("id","ground");
 
@@ -114,7 +115,7 @@
 			.attr("y",HEIGHT)
 			.attr("width",WIDTH)
 			.attr("height",ground_height)
-
+		*/
 		/*
 		ground.append("line")
 			.attr("x1",0)
@@ -308,28 +309,34 @@
 
 
 		}
-		var	body=d3.select("body");
+		var	body=d3.select("body"),
+		   	stuff=d3.select("#stuff");
+
 		function detectScrollTop(){
 			//if(tm) {
 			//	clearTimeout(tm);
 			//}
-			var	top=window.scrollY,
+			var	top=window.scrollY || window.pageYOffset,
 			   	fixed=body.classed("fixed");
+
+			stuff.style("opacity",top/200);
 
 			if(top>=199) {
 					if(!fixed) {
-						setTimeout(function(){
+						//setTimeout(function(){
 							body.classed("fixed",true);	
 							d3.select(".logo").style("opacity",0).transition().duration(1000).style("opacity",1);
-						},50)
+							svg.attr("height",350-1);
+						//},50)
 					}
 			} else {
 					if(fixed) {
-						setTimeout(function(){
+						//setTimeout(function(){
 							d3.select(".logo").style("opacity",0);
 							body.classed("fixed",false);
-							d3.select(".logo").style("opacity",1);	
-						},50)
+							svg.attr("height",500);
+							d3.select(".logo").transition().duration(2000).style("opacity",1);	
+						//},50)
 					}
 			}
 		}
@@ -360,13 +367,9 @@
 				
 			});
 			var current_mass_extents=d3.extent(ext);
-			console.log(current_mass_extents)
+			//console.log(current_mass_extents)
 			r_scale2.domain([0,current_mass_extents[1]]);
 			
-
-			console.log("MERDA",data.filter(function(d){
-							return selected_years.indexOf(+d.key)>-1;
-						}));
 
 			var divs=details.container.selectAll("div.meteorites")
 						.data(selected_years)
@@ -451,7 +454,7 @@
 
 			lis.append("h3")
 					.html(function(d){
-						return "<b>"+d.p+"</b><br/><span>"+d.c+"</span>"+"<br/><span>TYPE: "+d.t+"</span>";
+						return "<b>"+d.p+"</b><br/><span>"+countries[d.c]+"</span>"+"<br/><span>TYPE: "+d.t+"</span>";
 					});
 			lis.append("h4")
 					.text(function(d){
@@ -558,9 +561,11 @@
 			//d3.select("g#circles g[data='"+el.key+"']").classed("visible",true);
 			d3.selectAll("g.visible").classed("visible",false);
 			d3.selectAll("g[data='"+el.key+"']").classed("visible",true);
+			detectScrollTop();
 		})
 		.on("touchend",function(){
 			d3.event.stopPropagation();
+			detectScrollTop();
 		});
 
 
@@ -771,9 +776,9 @@
 				})
 				.text(function(d){
 					if(d.y==year_extents[0]) {
-						return weight_format(d.m)+" - "+ d.p+", "+d.c;
+						return weight_format(d.m)+" - "+ d.p+", "+countries[d.c];
 					}
-					return d.p+", "+d.c+" - "+weight_format(d.m);
+					return d.p+", "+countries[d.c]+" - "+weight_format(d.m);
 				});
 
 

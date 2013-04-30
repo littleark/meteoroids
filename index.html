@@ -11,16 +11,27 @@
 	<meta property="og:type" content="website">
 	<meta property="og:description" content="Thousands of meteorites have collided with the Earth since 2500 BC. 34,513 have been recorded. Only 1,042 have been seen falling. http://bolid.es/ by @littleark" >
 	<meta property="og:image" content="http://bolid.es/img/open_graph.png">
-	
-	<link href='http://fonts.googleapis.com/css?family=Noto+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans:300,400,700,400italic' rel='stylesheet' type='text/css'>
+	<!--<link href='http://fonts.googleapis.com/css?family=Noto+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>-->
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/fonteorite.css">
+	<!--[if gte IE 9]>
+		<style type="text/css">
+			.gradient {
+				filter: none;
+			}
+		</style>
+	<![endif]-->
 	<link rel="stylesheet" href="css/m.css">
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="js/libs/country_codes.js" charset="utf-8"></script>
 </head>
 <body>
 	<div id="canvas_container">
-		<div id="canvas"></div>
+		<div id="canvas">
+			<canvas id="falling"></canvas>
+			<div id="ground" class="gradient"></div>
+		</div>
 		<div id="controls">
 			<a href="#" id="restart"><i class="icon-to-start"></i></a>
 			<a href="#" id="playPause"><span id="start"><i class="icon-play"></i></span><span id="pause"><i class="icon-pause"></i></span></a>
@@ -30,22 +41,39 @@
 	<div id="details" class="clearfix"><div class="clearfix"></div><div class="clearfix"></div></div>
 	<div id="contents">
 		<h2><span><b>Thousands</b> of meteorites have collided with the Earth since 2500 BC.</span> <span><b>34,513</b> have been recorded.</span> <span>Only <b>1,042</b> have been seen falling.</span></h2>
-		<div class="left">
-			<h3></h3>
+		<div id="stuff">
+			<span class="sep">&bull;</span>
+			<div class="half left">
+				<h3>found meteorites</h3>
+				<ul>
+					<li class="meteorite"><div class="shape"><b style="width: 60px; height: 60px;"></b></div><h3><b>Dresden (Ontario)</b><br><span>CANADA</span><br><span>TYPE: H6</span></h3><h4>MASS: 48 kg</h4><div class="links"><a href="http://here.com/map=42.5,-82.26,8/title=Dresden%20(Ontario),%20CA%20Type:%20H6%20Mass:%2048%20kg" target="_blank"><i class="icon-location"></i></a><a href="http://www.lpi.usra.edu/meteor/metbull.php?code=7731" title="Open at the Meteoritical Society" target="_blank"><i class="icon-link"></i></a></div></li>
+				</ul>
+			</div>
+			<div class="half right">
+				<h3>fell meteorites</h3>
+				<ul>
+					<li class="meteorite"><div class="shape"><b style="width: 60px; height: 60px;"></b></div><h3><b>Dresden (Ontario)</b><br><span>CANADA</span><br><span>TYPE: H6</span></h3><h4>MASS: 48 kg</h4><div class="links"><a href="http://here.com/map=42.5,-82.26,8/title=Dresden%20(Ontario),%20CA%20Type:%20H6%20Mass:%2048%20kg" target="_blank"><i class="icon-location"></i></a><a href="http://www.lpi.usra.edu/meteor/metbull.php?code=7731" title="Open at the Meteoritical Society" target="_blank"><i class="icon-link"></i></a></div></li>
+				</ul>
+			</div>
+			<h5>Bolide</h5>
+			<p>The word <i>bolide</i> comes from Greek <b>βολίς</b> <i>bolis</i>, which means <i>missile</i>.
+			 Astronomers tend to use bolide to identify an exceptionally bright fireball, particularly one that explodes.
+			</p>
+			<h5>Data and Source</h5>
+			<p> The data comes from the <a href="http://www.meteoriticalsociety.org/" target="_blank" title="The Meteoritical Society">The Meteoritical Society</a> and contains information on all of the known meteorite landings. It includes 34,513 recordings of <i>found</i> and <i>fell</i> meteorites. A meteorite is classified as <i>fell</i> if it has been observed by people or automated devices during its fall.<br/>
+			<b>BOLIDES</b> shows all the known <i>fell</i> meteorites that have not been classified as <i>doubtful</i> or <i>discredited</i>.
+			<br/>
+			You can read more about the data at <a href="http://visualizing.org/datasets/meteorite-landings" target="_blank">Visualizing.org</a>.</p>
 		</div>
-		<div class="right">
-		</div>
-		<h5>Data and Source</h5>
-		<p>The data comes from the The Meteoritical Society and contains information on all of the known meteorite landings and it includes 34,513 recordings of found and eye-witnessed meteorites. You can read more about the data at <a href="http://visualizing.org/datasets/meteorite-landings" target="_blank">Visualizing.org</a>.</p>
 	</div>
-	<div id="footer" class="clearfix">
+	<div id="footer" class="clearfix transparent hidden">
 		<h1 class="logo"><i class="icon-fire-station"></i><br/>bolides<br/><span>a project by <a href="http://www.makinguse.com" target="_blank" title="">Carlo Zapponi</a></span></h1>
 		<div id="social">
 			<a href="http://twitter.com/share?text=Bolides%20-%20Visualizing%20every%20eye-witnessed%20meteorite%20that%20hit%20the%20earth&url=http%3A%2F%2Fbolid.es%2F&via=littleark&url=http%3A%2F%2Fbolid.es&original_referer=http%3A%2F%2Fbolid.es&hashtags=dataviz" target="_blank" title="Share on Twitter"><i class="icon-twitter-circled"></i></a>
 			<a href="http://facebook.com/sharer.php?u=http%3A%2F%2Fbolid.es" target="_blank" title="Share on Facebook"><i class="icon-facebook-circled"></i></a>
 			<a href="http://pinterest.com/pin/create/button/?url=http%3A//bolid.es&media=http%3A//bolid.es/img/bolides.png&description=Bolides%20-%20Visualizing%20every%20eye-witnessed%20meteorite%20that%20hit%20the%20earth" target="_blank"><i class="icon-pinterest-circled"></i></a>
 		</div>
-		<div id="licence" class="clearfix"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" class="cc"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><div>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons BY-NC-SA License</a>.</div></div>
+		<div id="licence" class="clearfix"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" class="cc" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><div>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons BY-NC-SA License</a>.</div></div>
 	</div>
 	<script src="js/libs/Vector2.js"></script>
 	<script src="js/libs/Particle.js"></script>

@@ -47,10 +47,13 @@ html {
 body {
 	background:#000;
 	color:#fff;
-	font-family: 'Noto Sans', sans-serif;
+	font-family: 'PT Sans', sans-serif;
 	font-weight: 300;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
+}
+body.fixed {
+	
 }
 h1,h2,h3,h4,h5,h6 {
 	text-rendering: optimizeLegibility;
@@ -68,7 +71,7 @@ h1.logo {
 }
 .fixed #year h1.logo {
 	position: fixed;
-	top: 250px;
+	top: 100px;
 	z-index: 999999999999;
 }
 .icon-fire-station {
@@ -89,7 +92,8 @@ h1.logo {
 	font-size: 50px;
 	margin-left: -5px;
 	margin-right: -6px;
-	color:#ffe100;
+	color:#ff9600;
+	text-shadow:none;
 }
 #year {
 	/*position: fixed;*/
@@ -120,7 +124,26 @@ h1.logo {
 	color:#4fbeff;
 	font-weight: normal;
 }
+#ground {
+	position: absolute;
+	top:0;
+	width:100%;
+	top:200px;
+	bottom:0;
+	background-color: rgba(0,0,0,0.82);
+}
+.fixed #ground {
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjgiLz4KICAgIDxzdG9wIG9mZnNldD0iOTklIiBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+background: -moz-linear-gradient(top,  rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 99%, rgba(0,0,0,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.8)), color-stop(99%,rgba(0,0,0,1)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0.8) 0%,rgba(0,0,0,1) 99%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(0,0,0,0.8) 0%,rgba(0,0,0,1) 99%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(0,0,0,0.8) 0%,rgba(0,0,0,1) 99%,rgba(0,0,0,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(0,0,0,0.8) 0%,rgba(0,0,0,1) 99%,rgba(0,0,0,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-8 */
 
+}
 #canvas_container {
 	width:100%;
 	overflow: hidden;
@@ -174,8 +197,9 @@ h1.logo {
 .fixed #canvas {
 	position: fixed;
 	top:-199px;
-	border-bottom: 1px solid rgba(255,255,255,0.5);
+	height:350px;
 	z-index:9999999999;
+	overflow: hidden;
 }
 #canvas canvas {
 	display: inline-block;
@@ -184,9 +208,14 @@ h1.logo {
 }
 #canvas svg {
 	position: absolute;
-	
 	left:0;
 	top:0;
+}
+.fixed #canvas svg {
+	border-bottom: 1px solid #333;
+}
+.fixed #canvas canvas {
+	background-color: #000;
 }
 #canvas svg g#ground line {
 	stroke:#fff;
@@ -200,10 +229,10 @@ h1.logo {
 }
 
 #canvas svg text {
-	font-size:12px;
+	font-size:13px;
 	text-anchor:start;
 	fill:#fff;
-
+	font-family: 'PT Sans', sans-serif;
 	-webkit-user-select: none; /* Chrome/Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+ */
@@ -277,7 +306,7 @@ h1.logo {
 	stroke-dasharray: 1 3;
 }
 #canvas g#circles text {
-	font-size:12px;
+	font-size:13px;
 	text-anchor:end;
 	fill:#eee;
 }
@@ -309,6 +338,7 @@ h1.logo {
 	width:100%;
 	margin:0 auto;
 	position: relative;
+	margin-top: -20px;
 }
 #details>div {
 	
@@ -385,7 +415,7 @@ h1.logo {
 	background-color: #ffe100;
 	font-weight: bold;
 }
-#details .meteorites ul li.meteorite {
+ul li.meteorite {
 	width: 132px;
 	padding:0 5px;
 	border-right: 1px dotted #111;
@@ -400,26 +430,27 @@ h1.logo {
 	background-color: #111;
 	border-right: 1px dotted #333;
 }
+
 #details .meteorites ul li.meteorite:first-child,
 #details .meteorites ul li.meteorite:nth-child(6n+1) {
 	-webkit-border-radius: 5px 0px 0px 5px;
 	border-radius: 5px 0px 0px 5px;
 }
 #details .meteorites ul li.meteorite:last-child,
-#details .meteorites ul li.meteorite:nth-child(6n+0),
-#details .meteorites:hover ul li.meteorite:last-child {
+#details .meteorites ul li.meteorite:nth-child(6n+0) {
 	-webkit-border-radius: 0px 5px 5px 0px;
 	border-radius: 0px 5px 5px 0px;
 	border-right: none;
 }
-#details .meteorites ul li.meteorite:first-child:last-child {
+#details .meteorites ul li.meteorite:first-child:last-child,
+#details .meteorites ul li.meteorite:last-child:nth-child(6n+1) {
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 #details ul li.selected {
 	display: block;
 }
-#details ul li.meteorite div.links {
+ul li.meteorite div.links {
 	position: absolute;
 	bottom:5px;
 	right:5px;
@@ -427,27 +458,27 @@ h1.logo {
 	display: none;
 	z-index:99999999999;
 }
-.touch #details ul li.meteorite div.links {
+.touch ul li.meteorite div.links {
 	display: block;
 }
-#details ul li.meteorite div.links a{
+ul li.meteorite div.links a{
 	color:#666;
 	background-color: #111;
 }
-#details ul li.meteorite div.links a:hover{
+ul li.meteorite div.links a:hover{
 	color:#4fbeff;
 }
-#details ul li.meteorite:hover div.links {
+ul li.meteorite:hover div.links {
 	display: block;
 }
-#details ul li.meteorite div.shape {
+ul li.meteorite div.shape {
 	min-height: 70px;
 	max-height: 70px;
 	height: 70px;
 	display: -webkit-flex;
 	display: flex;
 }
-#details ul li.meteorite div.shape b{
+ul li.meteorite div.shape b{
 	-webkit-align-self: center;
 	align-self: center;
 
@@ -462,10 +493,10 @@ h1.logo {
     -o-transition: height 1s ease,width 1s ease;
 	transition: height 1s ease,width 1s ease;
 }
-#details ul li.meteorite:hover div.shape b{
+ul li.meteorite:hover div.shape b{
 	background-color: #ffe100;
 }
-#details ul li h3 {
+ul li.meteorite h3 {
 	margin:0;
 	padding: 0;
 	font-size: 11px;
@@ -473,14 +504,14 @@ h1.logo {
 	text-transform: uppercase;
 	color: #ddd;
 }
-#details ul li.meteorite:hover h3 {
+ul li.meteorite:hover h3 {
 	color:#ffe100;
 }
 
-#details ul li h3 span {
+ul li.meteorite h3 span {
 	color: #aaa;
 }
-#details ul li h4 {
+ul li.meteorite h4 {
 	color: #aaa;
 	margin:0;
 	padding: 0;
@@ -495,6 +526,10 @@ h1.logo {
 	margin:0 auto;
 	position: relative;
 	color:#ddd;
+	padding: 0 20px;
+}
+#contents #stuff {
+	opacity:0;
 }
 #contents a {
 	color:inherit;
@@ -503,12 +538,13 @@ h1.logo {
 	color:#4fbeff;
 }
 #contents p {
-	margin:10px 20px;
+	margin:10px 0px;
 }
 #contents h5 {
-	margin:0px 20px;
+	margin:0;
 	font-size:15px;
 	color:#4fbeff;
+	font-weight: normal;
 }
 #contents h2 {
 	text-align: center;
@@ -519,7 +555,7 @@ h1.logo {
 	margin: 0;
 	padding: 0;
 	text-transform: uppercase;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
 #contents h2 span {
 	white-space: nowrap;
@@ -528,6 +564,46 @@ h1.logo {
 	color:#4fbeff;
 	font-weight: normal;
 }
+#contents span.sep {
+	display: block;
+	text-align: center;
+	font-size: 25px;
+	line-height: 20px;
+	color: #555;
+}
+#contents .half {
+	width:50%;
+}
+#contents .left {
+	float:left;
+	border-right:1px solid #555;
+}
+#contents .right {
+	float:right;
+	width:50%;
+	margin-right: -1px;
+}
+#contents .half h3 {
+	font-family: 'ExoExtraLight', sans-serif;
+	font-weight: normal;
+	color:#ddd;
+	font-size: 18px;
+	text-transform: uppercase;
+	text-align: center;
+	margin: 0 40px;
+}
+#contents .left h3 {
+	text-align: right;
+}
+#contents .right h3 {
+	text-align: left;
+}
+#contents .half ul {
+	margin:0;
+	padding:0;
+	list-style: none;
+}
+
 #footer {
 	font-size: 13px;
 	max-width:960px;
@@ -550,9 +626,9 @@ h1.logo {
 	text-shadow: 0px 0px 1px #555;
 }
 #footer h1 span {
-	font-family: 'Noto Sans', sans-serif;
+	font-family: 'PT Sans', sans-serif;
 	font-weight: 300;
-	font-size: 10px;
+	font-size: 12px;
 	font-weight: normal;
 	color: #ccc;
 	text-shadow:none;
@@ -571,20 +647,23 @@ h1.logo {
 	color:#aaa;
 	text-decoration: none;
 	font-size: 22px;
-	text-shadow: 0px 0px 1px #ffffff;
+	text-shadow: 0px 0px 1px #000;
 }
 #footer #social a:hover {
 	color:#4fbeff;
-	text-shadow: 0px 0px 1px #4fbeff;
+	text-shadow: 0px 0px 1px #000;
 }
 #footer #licence {
-	font-size: 10px;
-	width:310px;
+	font-size: 11px;
+	width:280px;
 	margin: 0 auto;
 	border-top:1px solid #444;
 	text-align: center;
 	margin-top: 20px;
 	padding-top: 10px;
+}
+#footer #licence div{
+	text-align: left;
 }
 #footer #licence a {
 	color:#aaa;

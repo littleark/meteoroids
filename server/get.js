@@ -59,14 +59,18 @@ db.open(function(err,client){
 						cursor.nextObject(function(err, doc) {
 							if(doc!=null) {
 								//console.log(doc)
+
+								var	lat=(doc.latitude / doc.latitude.toFixed() > 1)?doc.latitude:doc.latitude.toFixed(1),
+								   	lng=(doc.longitude / doc.longitude.toFixed() > 1)?doc.longitude:doc.longitude.toFixed(1);
+
 								var m={
 									m:doc.mass_g,
 									y:doc.year,
 									p:doc.place,
-									c:doc.country?doc.country.country:"",
+									c:doc.country?doc.country.code:"",
 									u:doc["database"].split("=")[1],
 									t:doc["type_of_meteorite"],
-									l:doc.latitude+","+doc.longitude
+									l:lat+","+lng
 									//year_date:doc.year_date,
 									//fell_found:doc.fell_found
 								};
