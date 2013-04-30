@@ -9,7 +9,7 @@
 	<meta property="og:title" content="BOLIDES - Visualizing meteorites">
 	<meta property="og:url" content="http://guns.periscopic.com">
 	<meta property="og:type" content="website">
-	<meta property="og:description" content="Thousands of meteorites have collided with the Earth since 2500 BC. 34,513 have been recorded. Only 1,042 have been seen falling. http://bolid.es/ by @littleark" >
+	<meta property="og:description" content="Thousands of meteorites have collided with the Earth since 2500 BC. 34,513 have been recorded. Only 1,042 have been seen falling. http://bolid.es" >
 	<meta property="og:image" content="http://bolid.es/img/open_graph.png">
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:300,400,700,400italic' rel='stylesheet' type='text/css'>
 	<!--<link href='http://fonts.googleapis.com/css?family=Noto+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>-->
@@ -31,6 +31,13 @@
 		<div id="canvas">
 			<canvas id="falling"></canvas>
 			<div id="ground" class="gradient"></div>
+			<svg id="years"></svg>
+			<div id="info">
+				<h6><span></span></h6>
+				<ul></ul>
+				<a href="#" id="plus"><i class="icon-plus-circled"></i><i class="icon-cancel-circled"></i></a>
+				<span id="gauge"></span>
+			</div>
 		</div>
 		<div id="controls">
 			<a href="#" id="restart"><i class="icon-to-start"></i></a>

@@ -2,11 +2,11 @@
 
  @font-face {
   font-family: 'fonteorite';
-  src: url('../font/fonteorite.eot?88122713');
-  src: url('../font/fonteorite.eot?88122713#iefix') format('embedded-opentype'),
-       url('../font/fonteorite.woff?88122713') format('woff'),
-       url('../font/fonteorite.ttf?88122713') format('truetype'),
-       url('../font/fonteorite.svg?88122713#fonteorite') format('svg');
+  src: url('../font/fonteorite.eot?9396617');
+  src: url('../font/fonteorite.eot?9396617#iefix') format('embedded-opentype'),
+       url('../font/fonteorite.woff?9396617') format('woff'),
+       url('../font/fonteorite.ttf?9396617') format('truetype'),
+       url('../font/fonteorite.svg?9396617#fonteorite') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fonteorite';
-    src: url('../font/fonteorite.svg?88122713#fonteorite') format('svg');
+    src: url('../font/fonteorite.svg?9396617#fonteorite') format('svg');
   }
 }
 */
@@ -55,6 +55,8 @@
 .icon-pause:before { content: '\2389'; } /* '⎉' */
 .icon-to-start:before { content: '\23ee'; } /* '⏮' */
 .icon-play:before { content: '\25b6'; } /* '▶' */
+.icon-cancel-circled:before { content: '\2716'; } /* '✖' */
+.icon-plus-circled:before { content: '\2795'; } /* '➕' */
 .icon-location:before { content: '\e724'; } /* '' */
 .icon-fire-station:before { content: '\e817'; } /* '' */
 .icon-facebook-circled:before { content: '\f051'; } /* '' */

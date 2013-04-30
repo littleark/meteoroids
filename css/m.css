@@ -67,7 +67,7 @@ h1.logo {
 	text-transform: uppercase;
 	margin: -10px 0 5px 0;
 	padding: 0;
-	text-shadow: 0px 0px 1px #fff;
+	/*text-shadow: 0px 0px 1px #fff;*/
 }
 .fixed #year h1.logo {
 	position: fixed;
@@ -147,24 +147,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 #canvas_container {
 	width:100%;
 	overflow: hidden;
-	height: 500px;
+	height: 600px;
 	position: relative;
 }
 
 
 #canvas_container #controls {
 	position: absolute;
-	top:10px;
+	top: 10px;
 	right: 10px;
-	text-align: right;
+	text-align: center;
 	z-index: 9999999999999;
 }
 #canvas_container #controls a{
 	font-family: 'ExoRegular', sans-serif;
 	font-size:16px;
-	color:#999;
+	color:#444;
 	text-decoration: none;
 	background-color: #000;
+	text-align: center;
 }
 #canvas_container #playPause span#start,
 #canvas_container #playPause.paused span#pause{
@@ -182,6 +183,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	position: relative;
 	height: 500px;
 	border-bottom: 1px solid rgba(255,255,255,0);
+	margin-top:100px;
 }
 #canvas circle {
 	fill:#fff;
@@ -196,7 +198,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 }
 .fixed #canvas {
 	position: fixed;
-	top:-199px;
+	top:-299px;
 	height:350px;
 	z-index:9999999999;
 	overflow: hidden;
@@ -206,11 +208,143 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	*display: inline;
 	*zoom: 1;
 }
+
+#info {
+	position: absolute;
+	z-index: 99999999;
+	width:220px;
+	margin-left: -235px;
+	/*height: 95px;*/
+	padding:5px;
+	background:transparent;
+	top:268px;
+	left:0px;
+	
+	/*
+	-webkit-transition: left 50ms ease, opacity 500ms ease;
+	-moz-transition: left 50ms ease, opacity 500ms ease;
+    -ms-transition: left 50ms ease, opacity 500ms ease;
+    -o-transition: left 50ms ease, opacity 500ms ease;
+	transition: left 50ms ease, opacity 500ms ease;
+	*/
+	-webkit-transition: opacity 500ms ease;
+	-moz-transition: opacity 500ms ease;
+    -ms-transition: opacity 500ms ease;
+    -o-transition: opacity 500ms ease;
+	transition: opacity 500ms ease;
+	font-size: 13px;
+
+	text-align: right;
+	overflow: visible;
+	
+	display: none;
+	opacity: 0;
+}
+#info:hover {
+	opacity: 1 !important;
+}
+#info #gauge {
+	border-right: 1px dotted #666;
+	width: 0px;
+	height: 89px;
+	position: absolute;
+	top: -68px;
+	right: -5px;
+}
+#info.ileft #gauge {
+	right: none;
+	left: 0px;
+}
+#info.ileft {
+	margin-left: 0px;
+	text-align: left;
+}
+#info h6 {
+	color:#77d4ff;
+	font-size: 13px;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+#info ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.fixed #info ul {
+	display: none;
+}
+#info ul a {
+	color:#fff;
+	text-decoration: none;
+	position: relative;
+	display: block;
+	white-space: nowrap;
+}
+#info ul a span {
+	white-space: nowrap;
+	text-align: right;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: inline-block;
+	max-width: 174px;
+	line-height: 10px;
+}
+#info ul li:nth-child(2n+1) a {
+	color:#999;
+}
+#info ul a:hover {
+	color:#ffe100 !important;
+}
+#info ul a b {
+	background-color:rgba(255,255,255,0.6);
+	position: absolute;
+	margin-right: -20px;
+	margin-top: 17px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+}
+#info.ileft ul a b {
+	right:auto;
+	margin-right: 0px;
+	margin-left: -20px;
+}
+#info #plus {
+	display: block;
+	background-color: rgba(0,0,0,0);
+}
+#info ul a:hover b {
+	background-color:#ffe100 !important;
+}
+#info a#plus {
+	color:#aaa;
+	text-decoration: none;
+	font-size: 22px;
+	margin-right: -23px;
+}
+#info.ileft a#plus {
+	margin-right: 0;
+	margin-left: -23px;
+}
+#info a#plus:hover {
+	color:#ffe100;
+}
+#info #plus .icon-cancel-circled,
+#info.selected #plus .icon-plus-circled {
+	display:none;
+}
+#info.selected #plus .icon-cancel-circled,
+#info #plus .icon-plus-circled {
+	display:inline;
+}
+
 #canvas svg {
 	position: absolute;
 	left:0;
 	top:0;
 }
+
 .fixed #canvas svg {
 	border-bottom: 1px solid #333;
 }
@@ -258,7 +392,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	fill-opacity:1;
 	shape-rendering: crispEdges;
 }
-#canvas svg.move {
+#canvas svg { /*.move*/
 	cursor: e-resize;
 }
 #canvas .view rect.sq {
@@ -385,6 +519,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	height: 30px;
 	display: block;
 	width: 90px;
+	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 #details div.m-year a b {
@@ -485,6 +620,7 @@ ul li.meteorite div.shape b{
 	display: block;
 	margin:0 auto;
 	background-color: rgba(255,255,255,0.4);
+	-webkit-border-radius: 50%;
 	border-radius: 50%;
 
 	-webkit-transition: height 1s ease,width 1s ease;
@@ -647,11 +783,11 @@ ul li.meteorite h4 {
 	color:#aaa;
 	text-decoration: none;
 	font-size: 22px;
-	text-shadow: 0px 0px 1px #000;
+	/*text-shadow: 0px 0px 1px #000;*/
 }
 #footer #social a:hover {
 	color:#4fbeff;
-	text-shadow: 0px 0px 1px #000;
+	/*text-shadow: 0px 0px 1px #000;*/
 }
 #footer #licence {
 	font-size: 11px;
