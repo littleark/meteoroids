@@ -2,11 +2,11 @@
 
  @font-face {
   font-family: 'fonteorite';
-  src: url('../font/fonteorite.eot?9396617');
-  src: url('../font/fonteorite.eot?9396617#iefix') format('embedded-opentype'),
-       url('../font/fonteorite.woff?9396617') format('woff'),
-       url('../font/fonteorite.ttf?9396617') format('truetype'),
-       url('../font/fonteorite.svg?9396617#fonteorite') format('svg');
+  src: url('../font/fonteorite.eot?65436475');
+  src: url('../font/fonteorite.eot?65436475#iefix') format('embedded-opentype'),
+       url('../font/fonteorite.woff?65436475') format('woff'),
+       url('../font/fonteorite.ttf?65436475') format('truetype'),
+       url('../font/fonteorite.svg?65436475#fonteorite') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fonteorite';
-    src: url('../font/fonteorite.svg?9396617#fonteorite') format('svg');
+    src: url('../font/fonteorite.svg?65436475#fonteorite') format('svg');
   }
 }
 */
@@ -61,5 +61,6 @@
 .icon-fire-station:before { content: '\e817'; } /* '' */
 .icon-facebook-circled:before { content: '\f051'; } /* '' */
 .icon-twitter-circled:before { content: '\f057'; } /* '' */
+.icon-gplus-circled:before { content: '\f310'; } /* '' */
 .icon-pinterest-circled:before { content: '\f313'; } /* '' */
 .icon-link:before { content: '🔗'; } /* '\1f517' */

@@ -28,8 +28,6 @@ THIS CODE IS NOT MEANT TO BE READ...
 
 (function(){
 
-	var embedded=(window.location.search.indexOf("embed")>-1);
-
 	function isCanvasSupported(){
 		var elem = document.createElement('canvas');
 		return !!(elem.getContext && elem.getContext('2d'));
@@ -63,20 +61,12 @@ THIS CODE IS NOT MEANT TO BE READ...
 	   	sorting="{'year':1}";
 	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0}}";
 	
-	d3.csv("data/met2.csv",function(d) {
-			d.l= d.lat+","+d.lng;
-			d.y= +d.y;
-			d.m= +d.m;
-			return d;
-		},function(json){
-			
-			d3.select("body").classed("touch",is_touch_device).classed("embedded",embedded);
-			metorites=new Metorites(json.sort(function(a,b){
-				return (a.y -  b.y) || (b.m-a.m);
-			}));
+	d3.json("data/meteors.json?"+(new Date().getTime()),function(json){
+		
+		d3.select("body").classed("touch",is_touch_device);
+		metorites=new Metorites(json);
 
-			d3.select("#year h3").classed("hidden",false);
-			
+		d3.select("#year h3").classed("hidden",false);
 	});
 
 	function Metorites(data){
@@ -85,9 +75,6 @@ THIS CODE IS NOT MEANT TO BE READ...
 		var big_format=d3.format(",.0f");
 
 		var weight_format=function(n){
-			if(n===0) {
-				return "Unknown Mass";
-			}
 			var n=d3.format(".2s")(n);
 			n=(n.search(/[kM]+/g)>-1)?(n.replace("k"," kg").replace("M"," ton")):n+" gr";
 			return n;
@@ -288,8 +275,6 @@ THIS CODE IS NOT MEANT TO BE READ...
 				.key(function(d) { return d.y; })
 				.entries(data);
 
-		//console.log(nested_data2)
-
 		isto.selectAll("rect")
 				.data(nested_data)
 				.enter()
@@ -383,10 +368,6 @@ THIS CODE IS NOT MEANT TO BE READ...
 		d3.select(window).on("scroll",detectScrollTop)
 		var data_for_details=[];
 		function createDetails(data){
-
-			if(embedded) {
-				return;
-			}
 
 			var data=data || nested_data2;
 			
@@ -543,7 +524,7 @@ THIS CODE IS NOT MEANT TO BE READ...
 		}
 
 		function setInfoBox(el){
-			var first_year=(__year<year_extents[0]+100);
+			var first_year=(__year==year_extents[0]);
 			
 			d3.selectAll(".view.visible").classed("visible",false);
 			d3.select(".view[data='"+el.key+"']").classed("visible",true);
@@ -611,15 +592,12 @@ THIS CODE IS NOT MEANT TO BE READ...
 			   	year=x_scale.invert(x);
 			year=year|year;
 
-
-
 			var	i=bisectDate(nested_data2,year,1),
 			   	el=nested_data2[i-1];
 
 			if(mousedown && __year != +el.key) {
 				__year= +el.key;
 				setInfoBox(el);
-
 
 			} else {
 				d3.selectAll(".view.visible").classed("visible",false);
@@ -758,9 +736,10 @@ THIS CODE IS NOT MEANT TO BE READ...
 			for(var i=0;i<data.length;i++) {
 				var d=data[i];
 				
-				var	vel=new Vector2(2.5+(-0.5 + Math.random()*2),1),
-				   	angle=vel.angle(),
-				   	dist=vel.clone().reverse();
+				//var	vel=new Vector2((2.5+(-0.5 + Math.random()*2))*(Math.round(Math.random())*2 -1),1+Math.random()),
+				var  	vel=new Vector2((2.5+(-0.5 + Math.random()*2)),1+Math.random()),
+				     	angle=vel.angle(),
+				     	dist=vel.clone().reverse();
 				
 				dist.normalise().multiplyEq(200+(Math.random()*200));
 
@@ -771,7 +750,36 @@ THIS CODE IS NOT MEANT TO BE READ...
 				var particle=new Particle(x_scale(d.y)+dist.x,HEIGHT+dist.y,r_scale(d.m));
 				particle.t=time_scale_delta((+d.y)+Math.random());
 				particle.year=d.y;
-				particle.gravity=0;//gravity;
+				particle.gravity=0.001;//gravity;
+
+				
+
+				var c=Math.floor(Math.random()*5);
+				var str="255,140,30";
+				switch(c){
+					case 0:
+						str="126,118,17";
+					break;
+					case 1:
+						str="147,151,160";
+					break;
+					case 2:
+						str="52,49,89";
+					break;
+					case 3:
+						str="129,93,67";
+					break;
+					case 4:
+						str="228,194,60";
+					break;
+					case 4:
+						str="109,108,113";
+					break;
+					default:
+						str="255,140,30";
+				}
+
+				particle.color='rgba('+str+',0.5)';
 
 				particle.vel=vel;
 				
@@ -848,7 +856,7 @@ THIS CODE IS NOT MEANT TO BE READ...
 				ctx.restore();
 			}
 
-			if(current_year<year) {
+			if(current_year!=year) {
 				year_dom.text(year)
 				views_dom.text(big_format(fell)+" meteorite"+((fell>1)?"s":""))	
 				current_year=year;
@@ -904,9 +912,7 @@ THIS CODE IS NOT MEANT TO BE READ...
 
 	}
 
-	if(embedded) {
-		return;
-	}
+
 
 	var top_fell=[
 
@@ -1196,9 +1202,6 @@ function buildHTML(d,data) {
 	var big_format=d3.format(",.0f");
 
 	var weight_format=function(n){
-		if(n===0) {
-			return "UNKNOWN";
-		}
 		var n=d3.format(".2s")(n);
 		n=(n.search(/[kM]+/g)>-1)?(n.replace("k"," kg").replace("M"," ton")):n+" gr";
 		return n;

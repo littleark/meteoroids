@@ -117,22 +117,6 @@
   "type_of_meteorite" : "Iron, IAB-ung",
   "year" : 1911
 }
-
-,/* 8 */
-{
-  "_id" : ("5177f1afe7cd083a5a9b22ef"),
-  "country" : {
-    "country" : "Russia"
-  },
-  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=23593",
-  "latitude" : 46.16,
-  "longitude" : 134.65333,
-  "mass_g" : (23000000),
-  "place" : "Sikhote-Alin",
-  "type_of_meteorite" : "Iron, IIAB",
-  "year" : 1947
-}
-
 ,/* 9 */
 {
   "_id" : ("5177f1afe7cd083a5a9b22f0"),
@@ -146,4 +130,18 @@
   "place" : "Bacubirito",
   "type_of_meteorite" : "Iron, ungrouped",
   "year" : 1863
+}
+,
+{
+  "_id" : ("5177f1afe7cd083a5a9b22f1"),
+  "country" : {
+    "country" : "Tanzania"
+  },
+  "database" : "http://www.lpi.usra.edu/meteor/metbull.php?code=15456",
+  "latitude" : -9.11667,
+  "longitude" : 33.06667,
+  "mass_g" : (16000000),
+  "place" : "Mbosi",
+  "type_of_meteorite" : "Iron, ungrouped",
+  "year" : 1930
 }

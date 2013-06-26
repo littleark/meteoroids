@@ -20,6 +20,73 @@
     font-style: normal;
 
 }
+@charset "UTF-8";
+
+ @font-face {
+  font-family: 'fonteorite';
+  src: url('../font/fonteorite.eot?65436475');
+  src: url('../font/fonteorite.eot?65436475#iefix') format('embedded-opentype'),
+       url('../font/fonteorite.woff?65436475') format('woff'),
+       url('../font/fonteorite.ttf?65436475') format('truetype'),
+       url('../font/fonteorite.svg?65436475#fonteorite') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fonteorite';
+    src: url('../font/fonteorite.svg?65436475#fonteorite') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fonteorite";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - magrins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-pause:before { content: '\2389'; } /* '⎉' */
+.icon-to-start:before { content: '\23ee'; } /* '⏮' */
+.icon-play:before { content: '\25b6'; } /* '▶' */
+.icon-cancel-circled:before { content: '\2716'; } /* '✖' */
+.icon-plus-circled:before { content: '\2795'; } /* '➕' */
+.icon-location:before { content: '\e724'; } /* '' */
+.icon-fire-station:before { content: '\e817'; } /* '' */
+.icon-facebook-circled:before { content: '\f051'; } /* '' */
+.icon-twitter-circled:before { content: '\f057'; } /* '' */
+.icon-gplus-circled:before { content: '\f310'; } /* '' */
+.icon-pinterest-circled:before { content: '\f313'; } /* '' */
+.icon-link:before { content: '🔗'; } /* '\1f517' */
+
 /*
  * Clearfix: contain floats
  *
@@ -51,6 +118,13 @@ body {
 	font-weight: 300;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
+}
+a {
+	color:#ddd;
+	text-decoration: none;
+}
+a:hover {
+	color:#4fbeff;
 }
 body.fixed {
 	
@@ -111,7 +185,17 @@ h1.logo {
 	margin: 0 0 0 60px;
 	padding: 0;
 	text-transform: uppercase;
+
+	-webkit-transition: opacity 1000ms ease;
+	-moz-transition: opacity 1000ms ease;
+    -ms-transition: opacity 1000ms ease;
+    -o-transition: opacity 1000ms ease;
+	transition: opacity 1000ms ease;
 }
+#year h3.hidden {
+	opacity: 0;
+}
+
 #year h4 {
 	color:#22abef;
 	font-size:18px;
@@ -297,6 +381,9 @@ body.fixed {
 	display: block;
 	white-space: nowrap;
 }
+.embedded #info ul a {
+	cursor: default;
+}
 #info ul a span {
 	white-space: nowrap;
 	text-align: right;
@@ -333,6 +420,9 @@ body.fixed {
 #info #plus {
 	display: block;
 	background-color: rgba(0,0,0,0);
+}
+.embedded #info #plus {
+	display: none;
 }
 #info ul a:hover b {
 	background-color:#ffe100 !important;
@@ -406,7 +496,15 @@ body.fixed {
 	stroke-width:1;
 	shape-rendering: crispEdges;
 }
-#canvas #istograms rect {
+#canvas svg #legend text {
+	fill:#bbb;
+	font-size: 10px;
+}
+#canvas svg #legend:hover text {
+	fill:#fff;
+}
+#canvas #istograms rect,
+#legend rect.istograms {
 	stroke:none;
 	fill:#0084d6;
 	fill-opacity:1;
@@ -415,7 +513,8 @@ body.fixed {
 #canvas svg { /*.move*/
 	cursor: move;
 }
-#canvas .view rect.sq {
+#canvas .view rect.sq,
+#legend rect.count {
 	stroke:none;
 	fill:#aaa;
 	shape-rendering: crispEdges;
@@ -691,6 +790,7 @@ ul li.meteorite h4 {
 }
 #contents a {
 	color:inherit;
+	text-decoration: underline;
 }
 #contents a:hover {
 	color:#4fbeff;
@@ -857,16 +957,11 @@ ul li.meteorite h4 {
 	color:#4fbeff;
 }
 .social {
-	opacity: 0.6;
-
 	-webkit-transition: opacity 500ms ease;
 	-moz-transition: opacity 500ms ease;
     -ms-transition: opacity 500ms ease;
     -o-transition: opacity 500ms ease;
 	transition: opacity 500ms ease;
-}
-.social:hover {
-	opacity: 1;
 }
 
 #footer .social {
@@ -929,4 +1024,14 @@ ul li.meteorite h4 {
 #footer #licence a.cc {
 	float:left;
 	margin-right: 10px;
+}
+.ie8 {
+	color:#fff;
+	position: absolute;
+	top:0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding-top:50px;
+	background-color:#000;
 }
