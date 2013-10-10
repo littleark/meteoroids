@@ -956,6 +956,7 @@ ul li.meteorite h4 {
 #footer h1 a:hover {
 	color:#4fbeff;
 }
+/*
 .social {
 	-webkit-transition: opacity 500ms ease;
 	-moz-transition: opacity 500ms ease;
@@ -963,35 +964,47 @@ ul li.meteorite h4 {
     -o-transition: opacity 500ms ease;
 	transition: opacity 500ms ease;
 }
-
+*/
 #footer .social {
 	text-align: center;
-	font-size: 22px;
+	font-size: 23px;
 }
 .social a {
 	color:#aaa;
 	text-decoration: none;
 	/*text-shadow: 0px 0px 1px #000;*/
 }
+#canvas_container .social a {
+	display: block;
+	float: left;
+}
 .social a:hover {
 	color:#4fbeff;
 	/*text-shadow: 0px 0px 1px #000;*/
 }
+.social a span {
+	display: block;
+	font-size: 10px;
+	font-weight: normal;
+}
 #canvas_container .social {
-	position: absolute;
+	position: fixed;
 	bottom: 10px;
 	right: 10px;
 	text-align: center;
 	z-index: 9999999999999;
-	font-size: 18px;
-	opacity: 0;
+	font-size: 23px;
+	opacity: 0.5;
 	white-space: nowrap;
 }
 #canvas_container .social a {
-	margin: 0 -4px;
+	margin: 0 -2px;
 }
 .fixed #canvas_container .social {
-	opacity: 0.6;
+	/*position: absolute;*/
+	opacity: 0.8;
+	bottom:auto;
+	top:155px;
 }
 .fixed #canvas_container .social:hover {
 	opacity: 1;

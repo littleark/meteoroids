@@ -58,11 +58,15 @@ THIS CODE IS NOT MEANT TO BE READ...
 	var playing=true;
 
 	var duration=60*1000;
-	var	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0},'type_of_meteorite':{$nin:[/Doubt/]}}",
-	   	fields="{'mass_g':1,'year':1,'place':1}",
-	   	sorting="{'year':1}";
-	query="{'year':{$ne:'',$gt:0},'fell_found':'Fell','mass_g':{$gt:0}}";
 	
+
+	d3.json("getPlus.php",function(d){
+		d3.select(".social .fb span").text(d.fb);
+		d3.select(".social .twt span").text(d.t+d.t2);
+		d3.select(".social .gp span").text(d.gp);		
+	})
+
+
 	d3.csv("data/met2.csv",function(d) {
 			d.l= d.lat+","+d.lng;
 			d.y= +d.y;
@@ -258,7 +262,7 @@ THIS CODE IS NOT MEANT TO BE READ...
 		var r_scale=d3.scale.sqrt().range([1.5,20]).domain(mass_extents);
 		var r_scale2=d3.scale.sqrt().rangeRound([4,60]).domain(mass_extents);
 
-		var h_scale=d3.scale.sqrt().range([5,100]).domain(mass_extents);
+		var h_scale=d3.scale.pow().exponent(1/5).range([5,100]).domain(mass_extents);
 		var h_scale2=d3.scale.sqrt().range([2,20]).domain(mass_extents);
 		var h_scale3=d3.scale.pow().exponent(1/3).range([0.5,30]).domain(mass_extents);
 
@@ -366,6 +370,7 @@ THIS CODE IS NOT MEANT TO BE READ...
 						//setTimeout(function(){
 							body.classed("fixed",true);	
 							d3.select(".logo").style("opacity",0).transition().duration(1000).style("opacity",1);
+							d3.select("#canvas_container .social").style("opacity",0).transition().duration(1000).style("opacity",1);
 							svg.attr("height",350-1);
 						//},50)
 					}
@@ -373,9 +378,11 @@ THIS CODE IS NOT MEANT TO BE READ...
 					if(fixed) {
 						//setTimeout(function(){
 							d3.select(".logo").style("opacity",0);
+							d3.select("#canvas_container .social").style("opacity",0);
 							body.classed("fixed",false);
 							svg.attr("height",500);
-							d3.select(".logo").transition().duration(2000).style("opacity",1);	
+							d3.select(".logo").transition().duration(2000).style("opacity",1);
+							d3.select("#canvas_container .social").transition().duration(2000).style("opacity",1);
 						//},50)
 					}
 			}
